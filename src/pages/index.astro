@@ -1,92 +1,57 @@
 ---
-// 1. Bible data files දෙකම import කරගන්නවා
+// 1. Layout එක Import කරගන්නවා
+import BaseLayout from '../layouts/BaseLayout.astro';
 import kjvBible from '../data/en_kjv.json';
 import rvrBible from '../data/es_rvr.json';
 
-// 2. JSON data ටික variables වලට දාගන්නවා
 const englishBooks = kjvBible;
 const spanishBooks = rvrBible;
+
+const votd_book = englishBooks[44].name; // Romans
+const votd_chapter = 12;
+const votd_verse_num = 2;
+const votd_text = englishBooks[44].chapters[11][1]; 
 ---
+<BaseLayout title="Home">
+    
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">Welcome to ScriptureHub</h1>
 
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>ScriptureHub - Home</title> <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 2em;
-            background: #f9f9f9;
-        }
-        main {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 2em;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        h1 { color: #222; }
-        h2 { 
-            color: #444; 
-            border-bottom: 2px solid #eee; 
-            padding-bottom: 10px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr; /* columns 3ක් හදමු */
-            gap: 10px;
-        }
-        li {
-            width: 100%;
-        }
-        a {
-            text-decoration: none;
-            color: #007aff;
-            background: #f0f8ff;
-            padding: 12px 15px;
-            display: block;
-            border-radius: 5px;
-            border: 1px solid #e0f0ff;
-            font-weight: 500;
-        }
-        a:hover {
-            background: #e0f0ff;
-            border-color: #c0e0ff;
-        }
-        hr {
-            border: none;
-            border-top: 1px solid #eee;
-            margin: 2.5em 0;
-        }
-    </style>
-</head>
-<body>
-    <main>
-        <h1>Welcome to ScriptureHub</h1>
-        
-        <h2>English (KJV) - Books</h2>
-        <ul>
-            {englishBooks.map(book => (
-                <li>
-                    <a href={`/en/${book.abbrev}/`}>{book.name}</a>
-                </li>
-            ))}
-        </ul>
+    <div class="bg-blue-50 dark:bg-gray-700 border border-blue-200 dark:border-gray-600 rounded-lg p-6 mb-8">
+        <h2 class="text-xl font-semibold text-blue-800 dark:text-blue-300 mb-2">Verse of the Day</h2>
+        <blockquote class="text-lg text-gray-700 dark:text-gray-300 italic leading-relaxed">
+            "{votd_text}"
+        </blockquote>
+        <p class="text-right font-semibold text-blue-600 dark:text-blue-400 mt-4">
+            - {votd_book} {votd_chapter}:{votd_verse_num}
+        </p>
+    </div>
+    
+    <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b dark:border-gray-600 pb-2">
+        English (KJV) - Books
+    </h2>
+    <ul class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {englishBooks.map(book => (
+            <li>
+                <a href={`/en/${book.abbrev}/`} class="block p-3 rounded-md bg-blue-50 dark:bg-gray-700 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-gray-600 font-medium transition-colors">
+                    {book.name}
+                </a>
+            </li>
+        ))}
+    </ul>
 
-        <hr>
+    <hr class="my-8 border-gray-200 dark:border-gray-600">
 
-        <h2>Español (Reina Valera) - Libros</h2>
-        <ul>
-            {spanishBooks.map(book => (
-                <li>
-                    <a href={`/es/${book.abbrev}/`}>{book.name}</a>
-                </li>
-            ))}
-        </ul>
+    <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b dark:border-gray-600 pb-2">
+        Español (Reina Valera) - Libros
+    </h2>
+    <ul class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {spanishBooks.map(book => (
+            <li>
+                <a href={`/es/${book.abbrev}/`} class="block p-3 rounded-md bg-green-50 dark:bg-gray-700 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-gray-600 font-medium transition-colors">
+                    {book.name}
+                </a>
+            </li>
+        ))}
+    </ul>
 
-    </main>
-</body>
-</html>
+</BaseLayout>
