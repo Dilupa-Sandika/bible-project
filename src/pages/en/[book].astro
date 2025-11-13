@@ -1,0 +1,91 @@
+---
+import kjvBible from '../../data/en_kjv.json';
+
+// --- Error එක Fix කරන අලුත් Code කෑල්ල මෙන්න ---
+// මේ function එකෙන් Astro වලට කියනවා build time එකේ හදන්න ඕන pages මොනවද කියලා
+export async function getStaticPaths() {
+  
+  // kjvBible array එක map කරලා, හැම පොතකටම path එකක් හදනවා
+  const paths = kjvBible.map(book => {
+    return {
+      params: { book: book.abbrev } // { book: 'gn' }, { book: 'ex' } ...
+    };
+  });
+
+  return paths; // paths 66ක array එක return කරනවා
+}
+// --- Fix එක ඉවරයි ---
+
+
+// --- මේ පරණ Code එකම තමා, ඒකෙ වෙනසක් නෑ ---
+
+// 1. URL එකෙන් "book" parameter එක ගන්නවා (උදා: 'gn')
+const { book: bookAbbrev } = Astro.params;
+
+// 2. සම්පූර්ණ Bible JSON එකෙන් අදාල book එක හොයාගන්නවා
+const currentBook = kjvBible.find(b => b.abbrev === bookAbbrev);
+
+// 3. පොත හම්බුනේ නැත්නම් 404 page එක පෙන්නනවා
+// (මේක වෙන්න විදිහක් නෑ getStaticPaths නිසා, ඒත් තියන එක හොඳයි)
+if (!currentBook) {
+    return Astro.redirect("/404");
+}
+
+// 4. ඒ පොතේ chapters ටික array එකකට ගන්නවා
+const chapters = currentBook.chapters;
+---
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>{currentBook.name} - Chapters</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 2em; background: #f9f9f9; }
+        main { max-width: 800px; margin: 0 auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { color: #222; }
+        
+        .chapter-grid {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+        }
+        .chapter-grid a {
+            text-decoration: none;
+            color: #333;
+            background: #f0f0f0;
+            padding: 15px;
+            display: block;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-weight: 500;
+            text-align: center;
+        }
+        .chapter-grid a:hover { background: #e0e0e0; }
+        .back-link { display: inline-block; margin-bottom: 1em; color: #007aff; }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="/" class="back-link">&larr; Back to All Books</a>
+        <h1>{currentBook.name}</h1>
+        
+        <h2>Select a Chapter</h2>
+        
+        <ul class="chapter-grid">
+            {chapters.map((chapter, index) => {
+                const chapterNumber = index + 1;
+                // මේ link එක ඊළඟට හදමු (/en/gn/1)
+                const chapterUrl = `/en/${bookAbbrev}/${chapterNumber}/`;
+                
+                return (
+                    <li>
+                        <a href={chapterUrl}>{chapterNumber}</a>
+                    </li>
+                )
+            })}
+        </ul>
+    </main>
+</body>
+</html>

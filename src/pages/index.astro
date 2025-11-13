@@ -1,16 +1,92 @@
 ---
+// 1. Bible data files දෙකම import කරගන්නවා
+import kjvBible from '../data/en_kjv.json';
+import rvrBible from '../data/es_rvr.json';
 
+// 2. JSON data ටික variables වලට දාගන්නවා
+const englishBooks = kjvBible;
+const spanishBooks = rvrBible;
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<head>
+    <meta charset="utf-8" />
+    <title>ScriptureHub - Home</title> <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 2em;
+            background: #f9f9f9;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        h1 { color: #222; }
+        h2 { 
+            color: #444; 
+            border-bottom: 2px solid #eee; 
+            padding-bottom: 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* columns 3ක් හදමු */
+            gap: 10px;
+        }
+        li {
+            width: 100%;
+        }
+        a {
+            text-decoration: none;
+            color: #007aff;
+            background: #f0f8ff;
+            padding: 12px 15px;
+            display: block;
+            border-radius: 5px;
+            border: 1px solid #e0f0ff;
+            font-weight: 500;
+        }
+        a:hover {
+            background: #e0f0ff;
+            border-color: #c0e0ff;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 2.5em 0;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Welcome to ScriptureHub</h1>
+        
+        <h2>English (KJV) - Books</h2>
+        <ul>
+            {englishBooks.map(book => (
+                <li>
+                    <a href={`/en/${book.abbrev}/`}>{book.name}</a>
+                </li>
+            ))}
+        </ul>
+
+        <hr>
+
+        <h2>Español (Reina Valera) - Libros</h2>
+        <ul>
+            {spanishBooks.map(book => (
+                <li>
+                    <a href={`/es/${book.abbrev}/`}>{book.name}</a>
+                </li>
+            ))}
+        </ul>
+
+    </main>
+</body>
 </html>

@@ -1,0 +1,121 @@
+---
+// Import එක 'es_rvr.json' එකට වෙනස් කලා
+import rvrBible from '../../../data/es_rvr.json';
+
+// --- Part 1: getStaticPaths (Spanish paths හදන්න) ---
+export async function getStaticPaths() {
+  const paths = [];
+
+  // 1. Spanish bible (rvrBible) එක loop කරනවා
+  rvrBible.forEach(book => {
+    // 2. ඒ book එකේ හැම chapter එකක්ම loop කරනවා
+    book.chapters.forEach((chapter, index) => {
+      const chapterNumber = index + 1;
+      
+      // 3. path එක හදනවා (උදා: { book: 'gn', chapter: '1' })
+      paths.push({
+        params: {
+          book: book.abbrev,
+          chapter: chapterNumber.toString() // number එක string කරන්න ඕන
+        }
+      });
+    });
+  });
+
+  return paths; // Spanish paths ටික return කරනවා
+}
+
+// --- Part 2: Page එකට Data දෙන එක ---
+const { book: bookAbbrev, chapter: chapterNumberStr } = Astro.params;
+const chapterNumber = parseInt(chapterNumberStr);
+
+// 1. අදාල book එක 'rvrBible' එකෙන් හොයාගන්නවා
+const currentBook = rvrBible.find(b => b.abbrev === bookAbbrev);
+
+// 2. අදාල chapter එකේ data ටික ගන්නවා
+const currentChapterVerses = currentBook.chapters[chapterNumber - 1];
+
+// 3. Next/Previous chapter numbers හදාගන්නවා
+const totalChapters = currentBook.chapters.length;
+const prevChapter = chapterNumber > 1 ? chapterNumber - 1 : null;
+const nextChapter = chapterNumber < totalChapters ? chapterNumber + 1 : null;
+---
+
+<html lang="es"> <head>
+    <meta charset="utf-8" />
+    <title>{currentBook.name} {chapterNumber} - RVR1960</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Styles වල කිසිම වෙනසක් නෑ */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 2em; background: #f9f9f9; }
+        main { max-width: 800px; margin: 0 auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { margin-top: 0; }
+        
+        .verses-list {
+            padding: 0;
+            list-style: none;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+        .verses-list li {
+            margin-bottom: 1em;
+        }
+        .verses-list sup {
+            font-weight: bold;
+            color: #007aff;
+            margin-right: 8px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 1.5em;
+            margin-top: 2em;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #007aff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+        }
+        nav a.disabled {
+            background-color: #ccc;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>{currentBook.name} - Capítulo {chapterNumber}</h1> <a href={`/es/${bookAbbrev}/`}>&larr; Volver a {currentBook.name} Capítulos</a> <ol class="verses-list">
+            {currentChapterVerses.map((verseText, index) => {
+                const verseNumber = index + 1;
+                return (
+                    <li>
+                        <sup>{verseNumber}</sup>{verseText}
+                    </li>
+                )
+            })}
+        </ol>
+
+        <nav>
+            {prevChapter ? (
+                // link එක '/es/' වලට වෙනස් කලා
+                <a href={`/es/${bookAbbrev}/${prevChapter}/`}>&larr; Capítulo {prevChapter}</a>
+            ) : (
+                <a href="#" class="disabled">&larr; Anterior</a> )}
+            
+            {nextChapter ? (
+                // link එක '/es/' වලට වෙනස් කලා
+                <a href={`/es/${bookAbbrev}/${nextChapter}/`}>Capítulo {nextChapter} &rarr;</a>
+            ) : (
+                <a href="#" class="disabled">Siguiente &rarr;</a> )}
+        </nav>
+    </main>
+</body>
+</html>
