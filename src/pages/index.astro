@@ -1,5 +1,4 @@
 ---
-// 1. Layout එක Import කරගන්නවා
 import BaseLayout from '../layouts/BaseLayout.astro';
 import kjvBible from '../data/en_kjv.json';
 import rvrBible from '../data/es_rvr.json';
@@ -7,10 +6,17 @@ import rvrBible from '../data/es_rvr.json';
 const englishBooks = kjvBible;
 const spanishBooks = rvrBible;
 
-const votd_book = englishBooks[44].name; // Romans
+// Get the main VOTD data (Romans 12:2)
+const votd_book_obj = englishBooks[44]; // Book of Romans
+const votd_book_abbrev = votd_book_obj.abbrev; // 'rm'
+const votd_book_name = votd_book_obj.name; // 'Romans'
 const votd_chapter = 12;
 const votd_verse_num = 2;
-const votd_text = englishBooks[44].chapters[11][1]; 
+const votd_text = votd_book_obj.chapters[11][1]; // Chapter 12 (index 11), Verse 2 (index 1)
+const votd_ref_text = `${votd_book_name} ${votd_chapter}:${votd_verse_num}`;
+
+// Build the clickable link
+const votd_link = `/en/${votd_book_abbrev}/${votd_chapter}/`;
 ---
 <BaseLayout title="Home">
     
@@ -22,8 +28,18 @@ const votd_text = englishBooks[44].chapters[11][1];
             "{votd_text}"
         </blockquote>
         <p class="text-right font-semibold text-blue-600 dark:text-blue-400 mt-4">
-            - {votd_book} {votd_chapter}:{votd_verse_num}
+            - <a href={votd_link} class="hover:underline">{votd_ref_text}</a>
         </p>
+
+        <div class="mt-4 pt-4 border-t border-blue-200 dark:border-gray-600 text-center">
+            <a href="/votd/en/" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                English
+            </a>
+            <span class="mx-1 text-gray-400">|</span>
+            <a href="/votd/es/" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                Español
+            </a>
+        </div>
     </div>
     
     <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b dark:border-gray-600 pb-2">

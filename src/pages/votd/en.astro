@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+// Import our new VOTD data file
+import votdData from '../../data/votd_data.json';
+
+// Get the English verses list
+const englishVerses = votdData.en;
+
+// Get the first verse (Day 1) as the main VOTD
+const mainVotd = englishVerses[0];
+
+// Build the clickable link
+const votdLink = `/en/${mainVotd.abbrev}/${mainVotd.chapter}/`;
+---
+<BaseLayout title="Verse of the Day - English">
+
+    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+        <a href="/" class="text-blue-600 dark:text-blue-400 hover:underline">Home</a>
+        <span class="mx-2">&gt;</span>
+        <span class="font-semibold">Verse of the Day (English)</span>
+    </div>
+
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
+        Verse of the Day
+    </h1>
+
+    <div class="bg-blue-50 dark:bg-gray-700 border border-blue-200 dark:border-gray-600 rounded-lg p-8">
+        <blockquote class="text-2xl text-gray-700 dark:text-gray-300 italic leading-relaxed">
+            "{mainVotd.text}"
+        </blockquote>
+        <p class="text-right font-semibold text-blue-600 dark:text-blue-400 mt-6 text-lg">
+            - <a href={votdLink} class="hover:underline">{mainVotd.ref}</a>
+        </p>
+    </div>
+
+    <div class="mt-6 text-center">
+        <span class="font-semibold dark:text-gray-300">In other languages:</span>
+        <a href="/votd/es/" class="text-blue-600 dark:text-blue-400 hover:underline ml-2">
+            Español
+        </a>
+    </div>
+
+    <hr class="my-12 border-gray-200 dark:border-gray-700">
+
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">
+        Verses of the Month [Sample]
+    </h2>
+
+    <div class="space-y-10">
+        {englishVerses.map(verse => {
+            const verseLink = `/en/${verse.abbrev}/${verse.chapter}/`;
+            return (
+                <article>
+                    <span class="block text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                        DAY {verse.day}
+                    </span>
+                    <blockquote class="text-xl text-gray-700 dark:text-gray-300 italic leading-relaxed">
+                        "{verse.text}"
+                    </blockquote>
+                    <p class="text-right font-semibold text-blue-600 dark:text-blue-400 mt-4">
+                        - <a href={verseLink} class="hover:underline">{verse.ref}</a>
+                    </p>
+                </article>
+            )
+        })}
+    </div>
+</BaseLayout>

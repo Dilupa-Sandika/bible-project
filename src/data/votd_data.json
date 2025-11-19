@@ -1,0 +1,41 @@
+{
+  "en": [
+    {
+      "day": 1,
+      "ref": "Romans 8:35-37",
+      "text": "Who shall separate us from the love of Christ? shall tribulation, or distress, or persecution, or famine, or nakedness, or peril, or sword? As it is written, For thy sake we are killed all the day long; we are accounted as sheep for the slaughter. Nay, in all these things we are more than conquerors through him that loved us.",
+      "abbrev": "rm",
+      "chapter": 8
+    },
+    {
+      "day": 2,
+      "ref": "John 12:46-48",
+      "text": "I am come a light into the world, that whosoever believeth on me should not abide in darkness. And if any man hear my words, and believe not, I judge him not: for I came not to judge the world, but to save the world. He that rejecteth me, and receiveth not my words, hath one that judgeth him: the word that I have spoken, the same shall judge him in the last day.",
+      "abbrev": "jn",
+      "chapter": 12
+    },
+    {
+      "day": 3,
+      "ref": "Psalms 73:25-26",
+      "text": "Whom have I in heaven but thee? and there is none upon earth that I desire beside thee. My flesh and my heart faileth: but God is the strength of my heart, and my portion for ever.",
+      "abbrev": "ps",
+      "chapter": 73
+    }
+  ],
+  "es": [
+    {
+      "day": 1,
+      "ref": "Juan 3:16",
+      "text": "Porque de tal manera amó Dios al mundo, que ha dado á su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.",
+      "abbrev": "jn",
+      "chapter": 3
+    },
+    {
+      "day": 2,
+      "ref": "Filipenses 4:13",
+      "text": "Todo lo puedo en Cristo que me fortalece.",
+      "abbrev": "php",
+      "chapter": 4
+    }
+  ]
+}

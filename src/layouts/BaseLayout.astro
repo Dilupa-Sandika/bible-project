@@ -1,7 +1,6 @@
 ---
-import '../styles/global.css'; // CSS Import එක මෙතනට ගත්තා!
+import '../styles/global.css';
 
-// Page එකට Title එකක් pass කරන්න පුලුවන්
 interface Props {
 	title: string;
 }
@@ -12,48 +11,59 @@ const { title } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} - ScriptureHub</title>
+    <style is:inline>
+        :root { font-size: 16px; } /* Default font size */
+    </style>
 </head>
 <body class="text-gray-800 dark:text-gray-200">
 
-    <header class="bg-white dark:bg-gray-800 shadow">
+    <header class="bg-white dark:bg-gray-800 shadow sticky top-0 z-10">
         <nav class="max-w-3xl mx-auto p-4 md:p-6 flex justify-between items-center">
             <a href="/" class="text-2xl font-bold text-blue-600 dark:text-blue-400">
                 ScriptureHub
             </a>
             
-            <button id="theme-toggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-                <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.706-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-1.636 4.364a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1zM6.54 6.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414zM3.864 16.136a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1z"></path></svg>
-            </button>
+            <div class="flex items-center gap-2">
+                
+                <button id="zoom-out" title="Decrease font size" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 w-9 h-9 flex items-center justify-center font-bold text-lg">
+                    -
+                </button>
+                <button id="zoom-in" title="Increase font size" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 w-9 h-9 flex items-center justify-center font-bold text-lg">
+                    +
+                </button>
+                <button id="theme-toggle" title="Toggle dark mode" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 w-9 h-9 flex items-center justify-center">
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.706-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-1.636 4.364a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1zM6.54 6.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414zM3.864 16.136a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1z"></path></svg>
+                </button>
+            </div>
         </nav>
     </header>
 
     <main class="max-w-3xl mx-auto p-4 md:p-8 bg-white dark:bg-gray-800 shadow-md rounded-lg my-8">
-        <slot /> </main>
+        <slot />
+    </main>
 
     <footer class="text-center p-4 text-gray-600 dark:text-gray-400 text-sm">
         © {new Date().getFullYear()} ScriptureHub. All rights reserved.
     </footer>
 
     <script is:inline>
-        // On page load, check user's preference from localStorage
-        if (localStorage.getItem('color-theme') === 'dark' || 
-            (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        // --- Dark Mode Script (පරණ එකමයි) ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            themeToggleLightIcon.classList.remove('hidden');
             document.documentElement.classList.add('dark');
-            document.getElementById('theme-toggle-light-icon').classList.remove('hidden');
         } else {
+            themeToggleDarkIcon.classList.remove('hidden');
             document.documentElement.classList.remove('dark');
-            document.getElementById('theme-toggle-dark-icon').classList.remove('hidden');
         }
 
-        // Add click event listener to the button
-        const themeToggleBtn = document.getElementById('theme-toggle');
         themeToggleBtn.addEventListener('click', function() {
-            // toggle icons
-            document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden');
-            document.getElementById('theme-toggle-light-icon').classList.toggle('hidden');
-
-            // if set via local storage previously
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
             if (localStorage.getItem('color-theme')) {
                 if (localStorage.getItem('color-theme') === 'light') {
                     document.documentElement.classList.add('dark');
@@ -62,7 +72,6 @@ const { title } = Astro.props;
                     document.documentElement.classList.remove('dark');
                     localStorage.setItem('color-theme', 'light');
                 }
-            // if NOT set via local storage previously
             } else {
                 if (document.documentElement.classList.contains('dark')) {
                     document.documentElement.classList.remove('dark');
@@ -71,6 +80,47 @@ const { title } = Astro.props;
                     document.documentElement.classList.add('dark');
                     localStorage.setItem('color-theme', 'dark');
                 }
+            }
+        });
+
+        // --- Font Size (Zoom) Script (අලුත් Script එක) ---
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const root = document.documentElement;
+
+        // Min/Max font size (12px to 24px)
+        const MIN_SIZE = 12;
+        const MAX_SIZE = 24;
+        const STEP = 2; // px
+
+        function getCurrentSize() {
+            // Get current size (default is 16)
+            return parseFloat(getComputedStyle(root).fontSize || '16px');
+        }
+
+        // Apply saved size on load
+        const savedSize = localStorage.getItem('font-size');
+        if (savedSize) {
+            root.style.fontSize = savedSize;
+        }
+
+        // Zoom In click
+        zoomInBtn.addEventListener('click', function() {
+            const currentSize = getCurrentSize();
+            if (currentSize < MAX_SIZE) {
+                const newSize = (currentSize + STEP) + 'px';
+                root.style.fontSize = newSize;
+                localStorage.setItem('font-size', newSize);
+            }
+        });
+
+        // Zoom Out click
+        zoomOutBtn.addEventListener('click', function() {
+            const currentSize = getCurrentSize();
+            if (currentSize > MIN_SIZE) {
+                const newSize = (currentSize - STEP) + 'px';
+                root.style.fontSize = newSize;
+                localStorage.setItem('font-size', newSize);
             }
         });
     </script>
