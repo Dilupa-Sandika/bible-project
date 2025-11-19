@@ -1,0 +1,103 @@
+[
+  {
+    "id": "love",
+    "title_en": "Love",
+    "title_es": "Amor",
+    "image": "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=2070&auto=format&fit=crop",
+    "gallery": [
+       
+       "/images/verses/1-corinthians-13-4-5.png",
+       "/images/verses/john-3-16.png"
+    ],
+    "verses": {
+      "en": [
+        {
+          "ref": "1 Corinthians 13:4-5",
+          "text": "Love suffers long and is kind; love does not envy; love does not parade itself, is not puffed up; does not behave rudely, does not seek its own, is not provoked, thinks no evil.",
+          "book": "1co",
+          "chapter": 13
+        },
+        {
+          "ref": "John 3:16",
+          "text": "For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life.",
+          "book": "jn",
+          "chapter": 3
+        }
+      ],
+      "es": [
+        {
+          "ref": "1 Corintios 13:4-5",
+          "text": "El amor es sufrido, es benigno; el amor no tiene envidia, el amor no es jactancioso, no se envanece; no hace nada indebido, no busca lo suyo, no se irrita, no guarda rencor.",
+          "book": "1co",
+          "chapter": 13
+        },
+        {
+          "ref": "Juan 3:16",
+          "text": "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.",
+          "book": "jn",
+          "chapter": 3
+        }
+      ]
+    }
+  },
+  {
+    "id": "faith",
+    "title_en": "Faith",
+    "title_es": "Fe",
+    "image": "https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=1964&auto=format&fit=crop",
+    "verses": {
+      "en": [
+        {
+          "ref": "Hebrews 11:1",
+          "text": "Now faith is the substance of things hoped for, the evidence of things not seen.",
+          "book": "heb",
+          "chapter": 11
+        },
+        {
+          "ref": "2 Corinthians 5:7",
+          "text": "For we walk by faith, not by sight.",
+          "book": "2co",
+          "chapter": 5
+        }
+      ],
+      "es": [
+        {
+          "ref": "Hebreos 11:1",
+          "text": "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.",
+          "book": "heb",
+          "chapter": 11
+        },
+        {
+          "ref": "2 Corintios 5:7",
+          "text": "Porque por fe andamos, no por vista.",
+          "book": "2co",
+          "chapter": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "hope",
+    "title_en": "Hope",
+    "title_es": "Esperanza",
+    "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1973&auto=format&fit=crop",
+    "verses": {
+      "en": [
+        {
+          "ref": "Jeremiah 29:11",
+          "text": "For I know the thoughts that I think toward you, says the LORD, thoughts of peace and not of evil, to give you a future and a hope.",
+          "book": "jer",
+          "chapter": 29
+        }
+      ],
+      "es": [
+        {
+          "ref": "Jeremías 29:11",
+          "text": "Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis.",
+          "book": "jer",
+          "chapter": 29
+        }
+      ]
+    }
+  }
+]

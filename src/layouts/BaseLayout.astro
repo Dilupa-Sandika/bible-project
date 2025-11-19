@@ -15,23 +15,36 @@ const { title } = Astro.props;
         :root { font-size: 16px; } /* Default font size */
     </style>
 </head>
-<body class="text-gray-800 dark:text-gray-200">
+<body class="text-gray-800 dark:text-gray-200 flex flex-col min-h-screen">
 
-    <header class="bg-white dark:bg-gray-800 shadow sticky top-0 z-10">
-        <nav class="max-w-3xl mx-auto p-4 md:p-6 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold text-blue-600 dark:text-blue-400">
+    <header class="bg-white dark:bg-gray-800 shadow sticky top-0 z-50">
+        <nav class="max-w-5xl mx-auto p-4 flex justify-between items-center">
+            
+            <a href="/" class="text-2xl font-bold text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity">
                 ScriptureHub
             </a>
+
+            <div class="hidden md:flex items-center gap-6 text-sm font-bold uppercase tracking-wide">
+                <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    Bible
+                </a>
+                <a href="/themes/" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    Themes
+                </a>
+                <a href="/votd/en/" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    Daily Verse
+                </a>
+            </div>
             
             <div class="flex items-center gap-2">
-                
-                <button id="zoom-out" title="Decrease font size" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 w-9 h-9 flex items-center justify-center font-bold text-lg">
+                <button id="zoom-out" title="Decrease font size" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 w-9 h-9 flex items-center justify-center font-bold text-lg transition-colors text-gray-800 dark:text-gray-200">
                     -
                 </button>
-                <button id="zoom-in" title="Increase font size" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 w-9 h-9 flex items-center justify-center font-bold text-lg">
+                <button id="zoom-in" title="Increase font size" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 w-9 h-9 flex items-center justify-center font-bold text-lg transition-colors text-gray-800 dark:text-gray-200">
                     +
                 </button>
-                <button id="theme-toggle" title="Toggle dark mode" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 w-9 h-9 flex items-center justify-center">
+                
+                <button id="theme-toggle" title="Toggle dark mode" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 w-9 h-9 flex items-center justify-center transition-colors text-gray-800 dark:text-gray-200">
                     <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                     <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.706-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-1.636 4.364a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1zM6.54 6.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414zM3.864 16.136a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1z"></path></svg>
                 </button>
@@ -39,16 +52,16 @@ const { title } = Astro.props;
         </nav>
     </header>
 
-    <main class="max-w-3xl mx-auto p-4 md:p-8 bg-white dark:bg-gray-800 shadow-md rounded-lg my-8">
+    <main class="flex-grow max-w-5xl mx-auto p-4 md:p-8 w-full">
         <slot />
     </main>
 
-    <footer class="text-center p-4 text-gray-600 dark:text-gray-400 text-sm">
+    <footer class="text-center p-6 bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400 text-sm mt-auto border-t dark:border-gray-800">
         © {new Date().getFullYear()} ScriptureHub. All rights reserved.
     </footer>
 
     <script is:inline>
-        // --- Dark Mode Script (පරණ එකමයි) ---
+        // Dark Mode Logic
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
         const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
@@ -83,44 +96,29 @@ const { title } = Astro.props;
             }
         });
 
-        // --- Font Size (Zoom) Script (අලුත් Script එක) ---
+        // Font Size Logic
         const zoomInBtn = document.getElementById('zoom-in');
         const zoomOutBtn = document.getElementById('zoom-out');
         const root = document.documentElement;
+        const MIN_SIZE = 14; const MAX_SIZE = 22; const STEP = 1;
 
-        // Min/Max font size (12px to 24px)
-        const MIN_SIZE = 12;
-        const MAX_SIZE = 24;
-        const STEP = 2; // px
-
-        function getCurrentSize() {
-            // Get current size (default is 16)
-            return parseFloat(getComputedStyle(root).fontSize || '16px');
-        }
-
-        // Apply saved size on load
+        function getCurrentSize() { return parseFloat(getComputedStyle(root).fontSize || '16px'); }
         const savedSize = localStorage.getItem('font-size');
-        if (savedSize) {
-            root.style.fontSize = savedSize;
-        }
+        if (savedSize) root.style.fontSize = savedSize;
 
-        // Zoom In click
-        zoomInBtn.addEventListener('click', function() {
-            const currentSize = getCurrentSize();
-            if (currentSize < MAX_SIZE) {
-                const newSize = (currentSize + STEP) + 'px';
-                root.style.fontSize = newSize;
-                localStorage.setItem('font-size', newSize);
+        zoomInBtn.addEventListener('click', () => {
+            const current = getCurrentSize();
+            if (current < MAX_SIZE) {
+                root.style.fontSize = (current + STEP) + 'px';
+                localStorage.setItem('font-size', root.style.fontSize);
             }
         });
 
-        // Zoom Out click
-        zoomOutBtn.addEventListener('click', function() {
-            const currentSize = getCurrentSize();
-            if (currentSize > MIN_SIZE) {
-                const newSize = (currentSize - STEP) + 'px';
-                root.style.fontSize = newSize;
-                localStorage.setItem('font-size', newSize);
+        zoomOutBtn.addEventListener('click', () => {
+            const current = getCurrentSize();
+            if (current > MIN_SIZE) {
+                root.style.fontSize = (current - STEP) + 'px';
+                localStorage.setItem('font-size', root.style.fontSize);
             }
         });
     </script>

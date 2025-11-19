@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import topicsData from '../../data/topics_db.json';
+
+// Page Title
+const pageTitle = "Biblical Themes for Life";
+---
+
+<BaseLayout title={pageTitle}>
+    
+    <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-4 tracking-tight">
+            Explore God's Word
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Find strength, comfort, and wisdom for every season of life through these curated collections of Bible verses.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        {topicsData.map(topic => (
+            <a href={`/themes/${topic.id}/`} class="group relative block h-64 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                
+                <div 
+                    class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                    style={`background-image: url('${topic.image}');`}
+                ></div>
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-90 group-hover:opacity-80 transition-opacity"></div>
+
+                <div class="absolute bottom-0 left-0 p-6 w-full">
+                    <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-blue-200 transition-colors">
+                        {topic.title_en}
+                    </h2>
+                    <p class="text-sm text-gray-300 font-medium uppercase tracking-wider">
+                        {topic.title_es}
+                    </p>
+                </div>
+
+            </a>
+        ))}
+
+    </div>
+
+    <div class="mt-16 p-8 bg-blue-50 dark:bg-gray-800 rounded-2xl text-center">
+        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">Why read by theme?</h3>
+        <p class="text-gray-600 dark:text-gray-400">
+            Sometimes we need specific answers. Our topical guide helps you find exactly what the Bible says about love, anxiety, hope, and more—instantly.
+        </p>
+    </div>
+
+</BaseLayout>
