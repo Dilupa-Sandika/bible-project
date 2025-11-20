@@ -3,6 +3,22 @@
     "id": "love",
     "title_en": "Love",
     "title_es": "Amor",
+    "seo": {
+      "en": {
+        "title": "25+ Best Bible Verses about Love & Marriage (KJV)",
+        "keywords": "scripture on love, god's love, bible verses for weddings, love is patient",
+        "description": "Discover the true meaning of love with these powerful Bible verses. Perfect for weddings, relationships, and understanding God's unconditional love.",
+        "alt_text": "Bible open to verses about love with heart background"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre el Amor y el Matrimonio",
+        "keywords": "el amor de dios, textos biblicos de amor, versiculos para bodas",
+        "description": "Descubre el verdadero significado del amor con estos poderosos versículos bíblicos.",
+        "alt_text": "Biblia abierta con versículos sobre el amor"
+      }
+    },
+
+
     "image": "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=2070&auto=format&fit=crop",
     "gallery_en": [
        

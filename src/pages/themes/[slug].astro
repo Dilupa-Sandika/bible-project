@@ -10,15 +10,28 @@ export async function getStaticPaths() {
 }
 
 const { topic } = Astro.props;
-const title = `${topic.title_en} - Bible Verses`;
 
-// 1. JSON එකේ තියෙන gallery_en සහ gallery_es දත්ත ගන්නවා
-// (ඒවා නැත්නම්, ප්‍රධාන පින්තූරය පාවිච්චි කරනවා fallback එකක් විදිහට)
+// --- SEO & DATA LOGIC ---
+
+// 1. Page Title: JSON එකේ SEO title එක ගන්නවා, නැත්නම් Auto හදාගන්නවා
+const title = topic.seo?.en?.title || `Bible Verses about ${topic.title_en} (${topic.title_es})`;
+
+// 2. Description: JSON එකේ description ගන්නවා, නැත්නම් Auto ලියනවා
+const description = topic.seo?.en?.description || `Read and download beautiful Bible verses about ${topic.title_en}. Biblical encouragement regarding ${topic.title_en} and ${topic.title_es} in KJV and RVR1960 versions.`;
+
+// 3. Alt Text Base: පින්තූර වලට දාන්න වචනයක් තෝරගන්නවා
+const altBaseEn = topic.seo?.en?.alt_text || `Bible verses about ${topic.title_en}`;
+const altBaseEs = topic.seo?.es?.alt_text || `Versículos bíblicos sobre ${topic.title_es}`;
+
+// 4. Image Logic (With Fallback)
 const enImages = topic.gallery_en && topic.gallery_en.length > 0 ? topic.gallery_en : [topic.image];
 const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery_es : [topic.image];
+
+// 5. Social Media Preview Image (පළමු පින්තූරය SEO සඳහා)
+const seoImage = enImages[0];
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} description={description} image={seoImage}>
 
     <div class="text-center mb-8">
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
@@ -33,17 +46,17 @@ const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery
         
         <div id="slider-en" class="slider-container h-full w-full absolute inset-0 transition-opacity duration-300 opacity-100 z-10">
             <div class="flex h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth slider-track">
-                {enImages.map((img) => (
+                {enImages.map((img, index) => (
                     <div class="min-w-full h-full snap-center relative slide-item flex items-center justify-center bg-black">
                         <img 
                             src={img} 
                             class="max-h-full max-w-full object-contain" 
-                            alt={`Bible verse about ${topic.title_en}`}
+                            alt={`${altBaseEn} - Image ${index + 1} - ScriptureHub`} 
                         />
                     </div>
                 ))}
             </div>
-            <a href={enImages[0]} download={`scripturehub-${topic.id}-en.png`} class="dl-btn absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 z-20 backdrop-blur-md border border-white/20">
+            <a id="dl-en" href={enImages[0]} download={`scripturehub-${topic.id}-en-1.jpg`} class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 z-20 backdrop-blur-md border border-white/20 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                 Download
             </a>
@@ -51,26 +64,26 @@ const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery
 
         <div id="slider-es" class="slider-container h-full w-full absolute inset-0 transition-opacity duration-300 opacity-0 z-0 pointer-events-none">
             <div class="flex h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth slider-track">
-                {esImages.map((img) => (
+                {esImages.map((img, index) => (
                     <div class="min-w-full h-full snap-center relative slide-item flex items-center justify-center bg-black">
                         <img 
                             src={img} 
                             class="max-h-full max-w-full object-contain" 
-                            alt={`Versículo bíblico sobre ${topic.title_es}`}
+                            alt={`${altBaseEs} - Imagen ${index + 1} - ScriptureHub`} 
                         />
                     </div>
                 ))}
             </div>
-            <a href={esImages[0]} download={`scripturehub-${topic.id}-es.png`} class="dl-btn absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 z-20 backdrop-blur-md border border-white/20">
+            <a id="dl-es" href={esImages[0]} download={`scripturehub-${topic.id}-es-1.jpg`} class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 z-20 backdrop-blur-md border border-white/20 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                 Descargar
             </a>
         </div>
 
-        <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white z-30 backdrop-blur-sm transition-all">
+        <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white z-30 backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100">
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
         </button>
-        <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white z-30 backdrop-blur-sm transition-all">
+        <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white z-30 backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100">
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
         </button>
     </div>
@@ -83,15 +96,18 @@ const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery
     </div>
 
     <div class="max-w-3xl mx-auto">
+        
         <div id="list-en" class="space-y-8 transition-opacity duration-300">
             {topic.verses.en.map(verse => (
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
-                    <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 mb-6">"{verse.text}"</blockquote>
-                    <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4">
-                        <a href={`/en/${verse.book}/${verse.chapter}/`} class="text-blue-600 font-bold hover:underline">{verse.ref}</a>
-                        <button class="copy-btn text-gray-400 hover:text-gray-600 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg> Copy
-                        </button>
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="p-8">
+                        <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-6">"{verse.text}"</blockquote>
+                        <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4">
+                            <a href={`/en/${verse.book}/${verse.chapter}/`} class="text-blue-600 dark:text-blue-400 font-bold hover:underline">{verse.ref}</a>
+                            <button class="copy-btn text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg> Copy
+                            </button>
+                        </div>
                     </div>
                 </div>
             ))}
@@ -99,13 +115,15 @@ const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery
 
         <div id="list-es" class="space-y-8 hidden">
             {topic.verses.es.map(verse => (
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
-                    <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 mb-6">"{verse.text}"</blockquote>
-                    <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4">
-                        <a href={`/es/${verse.book}/${verse.chapter}/`} class="text-green-600 font-bold hover:underline">{verse.ref}</a>
-                        <button class="copy-btn text-gray-400 hover:text-gray-600 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg> Copiar
-                        </button>
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="p-8">
+                        <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-6">"{verse.text}"</blockquote>
+                        <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4">
+                            <a href={`/es/${verse.book}/${verse.chapter}/`} class="text-green-600 dark:text-green-400 font-bold hover:underline">{verse.ref}</a>
+                            <button class="copy-btn text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg> Copiar
+                            </button>
+                        </div>
                     </div>
                 </div>
             ))}
@@ -117,8 +135,7 @@ const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 
-    <script is:inline>
-        // Select Elements
+    <script is:inline define:vars={{ enImages, esImages, topicId: topic.id }}>
         const btnEn = document.getElementById('btn-en');
         const btnEs = document.getElementById('btn-es');
         const listEn = document.getElementById('list-en');
@@ -127,37 +144,32 @@ const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery
         const sliderEs = document.getElementById('slider-es');
         const prevBtn = document.getElementById('prev-slide');
         const nextBtn = document.getElementById('next-slide');
+        
+        const dlBtnEn = document.getElementById('dl-en');
+        const dlBtnEs = document.getElementById('dl-es');
 
-        // --- Toggle Language Logic ---
+        // --- Toggle Language ---
         function toggleLang(lang) {
             if (lang === 'en') {
-                // Show English
                 listEn.classList.remove('hidden');
                 listEs.classList.add('hidden');
                 
-                // Slider Toggle (using Opacity and Pointer Events)
                 sliderEn.classList.remove('opacity-0', 'pointer-events-none', 'z-0');
                 sliderEn.classList.add('opacity-100', 'z-10');
-                
                 sliderEs.classList.remove('opacity-100', 'z-10');
                 sliderEs.classList.add('opacity-0', 'pointer-events-none', 'z-0');
-                
-                // Buttons Style
+
                 btnEn.className = "px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md";
                 btnEs.className = "px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all";
             } else {
-                // Show Spanish
                 listEn.classList.add('hidden');
                 listEs.classList.remove('hidden');
                 
-                // Slider Toggle
                 sliderEs.classList.remove('opacity-0', 'pointer-events-none', 'z-0');
                 sliderEs.classList.add('opacity-100', 'z-10');
-                
                 sliderEn.classList.remove('opacity-100', 'z-10');
                 sliderEn.classList.add('opacity-0', 'pointer-events-none', 'z-0');
 
-                // Buttons Style
                 btnEs.className = "px-6 py-2 rounded-lg text-sm font-bold transition-all bg-green-600 text-white shadow-md";
                 btnEn.className = "px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all";
             }
@@ -166,7 +178,7 @@ const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery
         btnEn.addEventListener('click', () => toggleLang('en'));
         btnEs.addEventListener('click', () => toggleLang('es'));
 
-        // --- Slider Scroll Logic ---
+        // --- Slider Arrows ---
         if (prevBtn && nextBtn) {
             nextBtn.addEventListener('click', () => {
                 const activeSlider = sliderEn.classList.contains('z-10') 
@@ -182,6 +194,24 @@ const esImages = topic.gallery_es && topic.gallery_es.length > 0 ? topic.gallery
                 activeSlider.scrollBy({ left: -activeSlider.offsetWidth, behavior: 'smooth' });
             });
         }
+
+        // --- Update Download Link on Scroll ---
+        function updateDownloadLink(sliderEl, images, btnEl, lang) {
+            const scrollLeft = sliderEl.scrollLeft;
+            const width = sliderEl.offsetWidth;
+            const index = Math.round(scrollLeft / width);
+            
+            if (images[index]) {
+                btnEl.href = images[index];
+                btnEl.download = `scripturehub-${topicId}-${lang}-${index + 1}.jpg`;
+            }
+        }
+
+        const trackEn = sliderEn.querySelector('.slider-track');
+        const trackEs = sliderEs.querySelector('.slider-track');
+
+        trackEn.addEventListener('scroll', () => updateDownloadLink(trackEn, enImages, dlBtnEn, 'en'));
+        trackEs.addEventListener('scroll', () => updateDownloadLink(trackEs, esImages, dlBtnEs, 'es'));
 
         // --- Copy Logic ---
         document.querySelectorAll('.copy-btn').forEach(btn => {
