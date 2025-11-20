@@ -4,10 +4,14 @@
     "title_en": "Love",
     "title_es": "Amor",
     "image": "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=2070&auto=format&fit=crop",
-    "gallery": [
+    "gallery_en": [
        
        "/images/verses/1-corinthians-13-4-5.png",
        "/images/verses/john-3-16.png"
+    ],
+    "gallery_es": [
+     "/images/verses/1-corintios-13-4-5.png",
+     "/images/verses/juan-3-16.png"
     ],
     "verses": {
       "en": [
