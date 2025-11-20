@@ -12,47 +12,51 @@ export async function getStaticPaths() {
 const { topic } = Astro.props;
 const title = `${topic.title_en} - Bible Verses`;
 
-// gallery එක නැත්නම් main image එක විතරක් දානවා (Safety fallback)
 const sliderImages = topic.gallery || [topic.image];
 ---
 
 <BaseLayout title={title}>
 
-    <div class="relative rounded-3xl overflow-hidden shadow-xl mb-10 h-72 md:h-96 group">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
+            Bible Verses about <span class="text-blue-600 dark:text-blue-400">{topic.title_en}</span>
+        </h1>
+        <p class="text-xl text-gray-500 dark:text-gray-400 uppercase tracking-widest font-semibold">
+            {topic.title_es}
+        </p>
+    </div>
+
+    <div class="relative rounded-3xl overflow-hidden shadow-xl mb-10 h-72 md:h-96 group bg-gray-900">
         
         <div id="hero-slider" class="flex h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth">
-            {sliderImages.map((img) => (
-                <div class="min-w-full h-full snap-center relative">
-                    <div 
-                        class="absolute inset-0 bg-cover bg-center"
-                        style={`background-image: url('${img}');`}
-                    ></div>
-                    <div class="absolute inset-0 bg-black/50"></div>
+            {sliderImages.map((img, index) => (
+                <div class="min-w-full h-full snap-center relative slide-item" data-index={index}>
+                    <img 
+                        src={img} 
+                        class="absolute inset-0 w-full h-full object-contain bg-black" 
+                        alt={`${topic.title_en} Bible Verse`}
+                    />
                 </div>
             ))}
         </div>
 
-        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pointer-events-none">
-            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-2 tracking-tight drop-shadow-2xl">
-                {topic.title_en}
-            </h1>
-            <p class="text-2xl text-gray-200 font-medium uppercase tracking-widest drop-shadow-lg">
-                {topic.title_es}
-            </p>
-        </div>
+        <a id="download-link" href={sliderImages[0]} download={`scripturehub-${topic.id}.jpg`} class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full backdrop-blur-md transition-all border border-white/20 text-sm font-bold shadow-lg flex items-center gap-2 z-20 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+            Download
+        </a>
 
         {sliderImages.length > 1 && (
             <>
-                <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100">
+                <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 z-20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 </button>
-                <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100">
+                <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 z-20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
                 </button>
                 
-                <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
                     {sliderImages.map((_, i) => (
-                        <div class="w-2 h-2 rounded-full bg-white/50"></div>
+                        <div class="slider-dot w-2 h-2 rounded-full bg-white/50 transition-all" data-index={i}></div>
                     ))}
                 </div>
             </>
@@ -61,59 +65,42 @@ const sliderImages = topic.gallery || [topic.image];
 
     <div class="flex justify-center mb-10">
         <div class="bg-white dark:bg-gray-800 p-1 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 inline-flex">
-            <button id="btn-en" class="px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md">
-                English
-            </button>
-            <button id="btn-es" class="px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
-                Español
-            </button>
+            <button id="btn-en" class="px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md">English</button>
+            <button id="btn-es" class="px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">Español</button>
         </div>
     </div>
 
     <div class="max-w-3xl mx-auto">
-        
         <div id="list-en" class="space-y-8">
             {topic.verses.en.map(verse => (
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow">
                     <div class="p-8">
-                        <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-6">
-                            "{verse.text}"
-                        </blockquote>
+                        <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-6">"{verse.text}"</blockquote>
                         <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4">
-                            <a href={`/en/${verse.book}/${verse.chapter}/`} class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
-                                {verse.ref}
-                            </a>
+                            <a href={`/en/${verse.book}/${verse.chapter}/`} class="text-blue-600 dark:text-blue-400 font-bold hover:underline">{verse.ref}</a>
                             <button class="copy-btn text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
-                                Copy
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg> Copy
                             </button>
                         </div>
                     </div>
                 </div>
             ))}
         </div>
-
         <div id="list-es" class="space-y-8 hidden">
             {topic.verses.es.map(verse => (
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow">
                     <div class="p-8">
-                        <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-6">
-                            "{verse.text}"
-                        </blockquote>
+                        <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-6">"{verse.text}"</blockquote>
                         <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4">
-                            <a href={`/es/${verse.book}/${verse.chapter}/`} class="text-green-600 dark:text-green-400 font-bold hover:underline">
-                                {verse.ref}
-                            </a>
+                            <a href={`/es/${verse.book}/${verse.chapter}/`} class="text-green-600 dark:text-green-400 font-bold hover:underline">{verse.ref}</a>
                             <button class="copy-btn text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
-                                Copiar
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg> Copiar
                             </button>
                         </div>
                     </div>
                 </div>
             ))}
         </div>
-
     </div>
 
     <style>
@@ -121,52 +108,84 @@ const sliderImages = topic.gallery || [topic.image];
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 
-    <script is:inline>
-        // Language Toggle
+    <script is:inline define:vars={{ sliderImages, topicId: topic.id }}>
+        const slider = document.getElementById('hero-slider');
+        const prevBtn = document.getElementById('prev-slide');
+        const nextBtn = document.getElementById('next-slide');
+        const downloadLink = document.getElementById('download-link');
+        const dots = document.querySelectorAll('.slider-dot');
+
+        // Update Download Link when sliding
+        const updateActiveSlide = () => {
+            const scrollLeft = slider.scrollLeft;
+            const width = slider.offsetWidth;
+            const index = Math.round(scrollLeft / width);
+            
+            // Update download href to current image
+            if (sliderImages[index]) {
+                downloadLink.href = sliderImages[index];
+                // Add index to filename to avoid duplicates
+                downloadLink.download = `scripturehub-${topicId}-${index + 1}.jpg`;
+            }
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                if (i === index) dot.classList.add('bg-white', 'scale-125');
+                else dot.classList.remove('bg-white', 'scale-125');
+            });
+        };
+
+        if (slider) {
+            slider.addEventListener('scroll', () => {
+                // Debounce or just run
+                updateActiveSlide();
+            });
+            
+            if(prevBtn && nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    slider.scrollBy({ left: slider.offsetWidth, behavior: 'smooth' });
+                });
+                prevBtn.addEventListener('click', () => {
+                    slider.scrollBy({ left: -slider.offsetWidth, behavior: 'smooth' });
+                });
+            }
+            
+            // Initial update
+            updateActiveSlide();
+        }
+
+        // Language Toggle & Copy (Existing)
         const btnEn = document.getElementById('btn-en');
         const btnEs = document.getElementById('btn-es');
         const listEn = document.getElementById('list-en');
         const listEs = document.getElementById('list-es');
 
-        btnEn.addEventListener('click', () => {
-            listEn.classList.remove('hidden');
-            listEs.classList.add('hidden');
-            btnEn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
-            btnEn.classList.remove('text-gray-500', 'hover:bg-gray-100');
-            btnEs.classList.remove('bg-green-600', 'text-white', 'shadow-md');
-            btnEs.classList.add('text-gray-500', 'hover:bg-gray-100');
-        });
-
-        btnEs.addEventListener('click', () => {
-            listEn.classList.add('hidden');
-            listEs.classList.remove('hidden');
-            btnEs.classList.add('bg-green-600', 'text-white', 'shadow-md');
-            btnEs.classList.remove('text-gray-500', 'hover:bg-gray-100');
-            btnEn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
-            btnEn.classList.add('text-gray-500', 'hover:bg-gray-100');
-        });
-
-        // Image Slider Logic
-        const slider = document.getElementById('hero-slider');
-        const prevBtn = document.getElementById('prev-slide');
-        const nextBtn = document.getElementById('next-slide');
-
-        if (slider && prevBtn && nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                slider.scrollBy({ left: slider.offsetWidth, behavior: 'smooth' });
+        if(btnEn && btnEs) {
+            btnEn.addEventListener('click', () => {
+                listEn.classList.remove('hidden');
+                listEs.classList.add('hidden');
+                btnEn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+                btnEn.classList.remove('text-gray-500', 'hover:bg-gray-100');
+                btnEs.classList.remove('bg-green-600', 'text-white', 'shadow-md');
+                btnEs.classList.add('text-gray-500', 'hover:bg-gray-100');
             });
-            prevBtn.addEventListener('click', () => {
-                slider.scrollBy({ left: -slider.offsetWidth, behavior: 'smooth' });
+
+            btnEs.addEventListener('click', () => {
+                listEn.classList.add('hidden');
+                listEs.classList.remove('hidden');
+                btnEs.classList.add('bg-green-600', 'text-white', 'shadow-md');
+                btnEs.classList.remove('text-gray-500', 'hover:bg-gray-100');
+                btnEn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                btnEn.classList.add('text-gray-500', 'hover:bg-gray-100');
             });
         }
 
-        // Copy Logic
         document.querySelectorAll('.copy-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const text = btn.getAttribute('data-text');
                 navigator.clipboard.writeText(text).then(() => {
                     const originalHTML = btn.innerHTML;
-                    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+                    btn.innerHTML = '<span class="text-green-500 font-bold">Done!</span>';
                     setTimeout(() => {
                         btn.innerHTML = originalHTML;
                     }, 2000);
