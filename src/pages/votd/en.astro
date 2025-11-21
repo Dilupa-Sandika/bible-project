@@ -1,67 +1,95 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-// Import our new VOTD data file
 import votdData from '../../data/votd_data.json';
 
-// Get the English verses list
-const englishVerses = votdData.en;
+// Date Logic
+const date = new Date();
+const currentMonth = date.getMonth() + 1;
+const currentDay = date.getDate();
+const todayId = `${currentMonth}-${currentDay}`;
+const monthName = date.toLocaleString('en-US', { month: 'long' });
 
-// Get the first verse (Day 1) as the main VOTD
-const mainVotd = englishVerses[0];
+// Filter Verses
+const monthVerses = votdData.en.filter(v => {
+    const [m, d] = v.dateId.split('-');
+    return parseInt(m) === currentMonth;
+}).sort((a, b) => {
+    const dayA = parseInt(a.dateId.split('-')[1]);
+    const dayB = parseInt(b.dateId.split('-')[1]);
+    return dayA - dayB;
+});
 
-// Build the clickable link
-const votdLink = `/en/${mainVotd.abbrev}/${mainVotd.chapter}/`;
+// Identify Today
+let todaysVerse = monthVerses.find(v => v.dateId === todayId);
+if (!todaysVerse) todaysVerse = monthVerses.length > 0 ? monthVerses[0] : votdData.en[0];
+
+const heroImage = todaysVerse.image || "/images/verses/john-3-16.png";
+const todaysLink = `/en/${todaysVerse.abbrev}/${todaysVerse.chapter}/`;
 ---
-<BaseLayout title="Verse of the Day - English">
+
+<BaseLayout title={`Verses for ${monthName} - ScriptureHub`}>
 
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         <a href="/" class="text-blue-600 dark:text-blue-400 hover:underline">Home</a>
         <span class="mx-2">&gt;</span>
-        <span class="font-semibold">Verse of the Day (English)</span>
+        <span class="font-semibold">Verses for {monthName}</span>
     </div>
 
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-        Verse of the Day
-    </h1>
-
-    <div class="bg-blue-50 dark:bg-gray-700 border border-blue-200 dark:border-gray-600 rounded-lg p-8">
-        <blockquote class="text-2xl text-gray-700 dark:text-gray-300 italic leading-relaxed">
-            "{mainVotd.text}"
-        </blockquote>
-        <p class="text-right font-semibold text-blue-600 dark:text-blue-400 mt-6 text-lg">
-            - <a href={votdLink} class="hover:underline">{mainVotd.ref}</a>
-        </p>
+    <div class="text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
+            Daily Verses - <span class="text-blue-600 dark:text-blue-400">{monthName}</span>
+        </h1>
     </div>
 
-    <div class="mt-6 text-center">
-        <span class="font-semibold dark:text-gray-300">In other languages:</span>
-        <a href="/votd/es/" class="text-blue-600 dark:text-blue-400 hover:underline ml-2">
-            Español
+    <div class="max-w-3xl mx-auto mb-12">
+        <div class="relative rounded-3xl overflow-hidden shadow-xl h-64 md:h-96 group bg-gray-900 mb-6">
+            <img src={heroImage} class="absolute inset-0 w-full h-full object-contain bg-black" alt={todaysVerse.ref} />
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700 text-center">
+            <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider inline-block">
+                Today's Verse
+            </span>
+            <blockquote class="text-xl md:text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-4">
+                "{todaysVerse.text}"
+            </blockquote>
+            <a href={todaysLink} class="text-lg font-bold text-blue-600 dark:text-blue-400 hover:underline">
+                - {todaysVerse.ref} &rarr;
+            </a>
+        </div>
+    </div>
+
+    <div class="text-center mb-10">
+        <a href="/votd/es/" class="inline-flex items-center gap-2 px-6 py-2 rounded-full border-2 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-blue-500 hover:text-blue-600 transition-all font-bold">
+            <span>Switch to Español</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </a>
     </div>
 
-    <hr class="my-12 border-gray-200 dark:border-gray-700">
-
-    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-        Verses of the Month [Sample]
-    </h2>
-
-    <div class="space-y-10">
-        {englishVerses.map(verse => {
+    <div class="max-w-3xl mx-auto space-y-4">
+        {monthVerses.map(verse => {
+            const isToday = verse.dateId === todayId;
             const verseLink = `/en/${verse.abbrev}/${verse.chapter}/`;
+            const dayNum = verse.dateId.split('-')[1];
+
             return (
-                <article>
-                    <span class="block text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">
-                        DAY {verse.day}
-                    </span>
-                    <blockquote class="text-xl text-gray-700 dark:text-gray-300 italic leading-relaxed">
-                        "{verse.text}"
-                    </blockquote>
-                    <p class="text-right font-semibold text-blue-600 dark:text-blue-400 mt-4">
-                        - <a href={verseLink} class="hover:underline">{verse.ref}</a>
-                    </p>
-                </article>
+                <div class={`flex flex-col md:flex-row gap-4 p-6 rounded-2xl border transition-all ${isToday ? 'bg-blue-50 border-blue-500 dark:bg-blue-900/20 dark:border-blue-500 shadow-md transform scale-[1.02]' : 'bg-white border-gray-100 dark:bg-gray-800 dark:border-gray-700 hover:border-blue-300'}`}>
+                    <div class="flex-shrink-0">
+                        <div class={`w-16 h-16 rounded-xl flex flex-col items-center justify-center font-bold ${isToday ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
+                            <span class="text-xs uppercase">Day</span>
+                            <span class="text-2xl">{dayNum}</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-lg text-gray-800 dark:text-gray-200 font-serif mb-2">"{verse.text}"</p>
+                        <div class="flex justify-between items-center">
+                            <a href={verseLink} class="text-blue-600 dark:text-blue-400 font-bold hover:underline text-sm">{verse.ref}</a>
+                            {isToday && <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Today</span>}
+                        </div>
+                    </div>
+                </div>
             )
         })}
     </div>
+
 </BaseLayout>

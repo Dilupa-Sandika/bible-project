@@ -1,41 +1,68 @@
 {
   "en": [
-    {
-      "day": 1,
-      "ref": "Romans 8:35-37",
-      "text": "Who shall separate us from the love of Christ? shall tribulation, or distress, or persecution, or famine, or nakedness, or peril, or sword? As it is written, For thy sake we are killed all the day long; we are accounted as sheep for the slaughter. Nay, in all these things we are more than conquerors through him that loved us.",
-      "abbrev": "rm",
-      "chapter": 8
-    },
-    {
-      "day": 2,
-      "ref": "John 12:46-48",
-      "text": "I am come a light into the world, that whosoever believeth on me should not abide in darkness. And if any man hear my words, and believe not, I judge him not: for I came not to judge the world, but to save the world. He that rejecteth me, and receiveth not my words, hath one that judgeth him: the word that I have spoken, the same shall judge him in the last day.",
-      "abbrev": "jn",
-      "chapter": 12
-    },
-    {
-      "day": 3,
-      "ref": "Psalms 73:25-26",
-      "text": "Whom have I in heaven but thee? and there is none upon earth that I desire beside thee. My flesh and my heart faileth: but God is the strength of my heart, and my portion for ever.",
-      "abbrev": "ps",
-      "chapter": 73
-    }
+    { "dateId": "11-1", "theme": "Faith", "ref": "Hebrews 11:1", "text": "Now faith is the substance of things hoped for, the evidence of things not seen.", "abbrev": "heb", "chapter": 11, "image": "/images/verses/nov-1.png" },
+    { "dateId": "11-2", "theme": "Love", "ref": "1 John 4:19", "text": "We love him, because he first loved us.", "abbrev": "1jn", "chapter": 4, "image": "/images/verses/nov-2.png" },
+    { "dateId": "11-3", "theme": "Hope", "ref": "Romans 15:13", "text": "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.", "abbrev": "rm", "chapter": 15, "image": "/images/verses/nov-3.png" },
+    { "dateId": "11-4", "theme": "Peace", "ref": "John 14:27", "text": "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.", "abbrev": "jn", "chapter": 14, "image": "/images/verses/nov-4.png" },
+    { "dateId": "11-5", "theme": "Strength", "ref": "Isaiah 40:31", "text": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.", "abbrev": "isa", "chapter": 40, "image": "/images/verses/nov-5.png" },
+    { "dateId": "11-6", "theme": "Trust", "ref": "Proverbs 3:5-6", "text": "Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.", "abbrev": "pro", "chapter": 3, "image": "/images/verses/nov-6.png" },
+    { "dateId": "11-7", "theme": "Guidance", "ref": "Psalm 32:8", "text": "I will instruct thee and teach thee in the way which thou shalt go: I will guide thee with mine eye.", "abbrev": "ps", "chapter": 32, "image": "/images/verses/nov-7.png" },
+    { "dateId": "11-8", "theme": "Grace", "ref": "Ephesians 2:8-9", "text": "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God: Not of works, lest any man should boast.", "abbrev": "eph", "chapter": 2, "image": "/images/verses/nov-8.png" },
+    { "dateId": "11-9", "theme": "Mercy", "ref": "Lamentations 3:22-23", "text": "It is of the LORD's mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.", "abbrev": "lam", "chapter": 3, "image": "/images/verses/nov-9.png" },
+    { "dateId": "11-10", "theme": "Comfort", "ref": "2 Corinthians 1:3-4", "text": "Blessed be God, even the Father of our Lord Jesus Christ, the Father of mercies, and the God of all comfort; Who comforteth us in all our tribulation.", "abbrev": "2co", "chapter": 1, "image": "/images/verses/nov-10.png" },
+    { "dateId": "11-11", "theme": "Courage", "ref": "Joshua 1:9", "text": "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.", "abbrev": "jos", "chapter": 1, "image": "/images/verses/nov-11.png" },
+    { "dateId": "11-12", "theme": "Wisdom", "ref": "James 1:5", "text": "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.", "abbrev": "jas", "chapter": 1, "image": "/images/verses/nov-12.png" },
+    { "dateId": "11-13", "theme": "Joy", "ref": "Nehemiah 8:10", "text": "For the joy of the LORD is your strength.", "abbrev": "neh", "chapter": 8, "image": "/images/verses/nov-13.png" },
+    { "dateId": "11-14", "theme": "Patience", "ref": "Romans 12:12", "text": "Rejoicing in hope; patient in tribulation; continuing instant in prayer.", "abbrev": "rm", "chapter": 12, "image": "/images/verses/nov-14.png" },
+    { "dateId": "11-15", "theme": "Kindness", "ref": "Ephesians 4:32", "text": "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you.", "abbrev": "eph", "chapter": 4, "image": "/images/verses/nov-15.png" },
+    { "dateId": "11-16", "theme": "Forgiveness", "ref": "1 John 1:9", "text": "If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.", "abbrev": "1jn", "chapter": 1, "image": "/images/verses/nov-16.png" },
+    { "dateId": "11-17", "theme": "Protection", "ref": "Psalm 91:1-2", "text": "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty. I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust.", "abbrev": "ps", "chapter": 91, "image": "/images/verses/nov-17.png" },
+    { "dateId": "11-18", "theme": "Provision", "ref": "Philippians 4:19", "text": "But my God shall supply all your need according to his riches in glory by Christ Jesus.", "abbrev": "php", "chapter": 4, "image": "/images/verses/nov-18.png" },
+    { "dateId": "11-19", "theme": "Healing", "ref": "Jeremiah 17:14", "text": "Heal me, O LORD, and I shall be healed; save me, and I shall be saved: for thou art my praise.", "abbrev": "jer", "chapter": 17, "image": "/images/verses/nov-19.png" },
+    { "dateId": "11-20", "theme": "Worship", "ref": "John 4:24", "text": "God is a Spirit: and they that worship him must worship him in spirit and in truth.", "abbrev": "jn", "chapter": 4, "image": "/images/verses/nov-20.png" },
+    { "dateId": "11-21", "theme": "Gratitude", "ref": "1 Thessalonians 5:18", "text": "In every thing give thanks: for this is the will of God in Christ Jesus concerning you.", "abbrev": "1th", "chapter": 5, "image": "/images/verses/nov-21.png" },
+    { "dateId": "11-22", "theme": "Humility", "ref": "James 4:10", "text": "Humble yourselves in the sight of the Lord, and he shall lift you up.", "abbrev": "jas", "chapter": 4, "image": "/images/verses/nov-22.png" },
+    { "dateId": "11-23", "theme": "Obedience", "ref": "John 14:15", "text": "If ye love me, keep my commandments.", "abbrev": "jn", "chapter": 14, "image": "/images/verses/nov-23.png" },
+    { "dateId": "11-24", "theme": "Faithfulness", "ref": "Lamentations 3:23", "text": "Great is thy faithfulness.", "abbrev": "lam", "chapter": 3, "image": "/images/verses/nov-24.png" },
+    { "dateId": "11-25", "theme": "Salvation", "ref": "Romans 10:9", "text": "That if thou shalt confess with thy mouth the Lord Jesus, and shalt believe in thine heart that God hath raised him from the dead, thou shalt be saved.", "abbrev": "rm", "chapter": 10, "image": "/images/verses/nov-25.png" },
+    { "dateId": "11-26", "theme": "Eternal Life", "ref": "John 3:16", "text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.", "abbrev": "jn", "chapter": 3, "image": "/images/verses/nov-26.png" },
+    { "dateId": "11-27", "theme": "Word of God", "ref": "Hebrews 4:12", "text": "For the word of God is quick, and powerful, and sharper than any twoedged sword...", "abbrev": "heb", "chapter": 4, "image": "/images/verses/nov-27.png" },
+    { "dateId": "11-28", "theme": "Prayer", "ref": "1 Thessalonians 5:17", "text": "Pray without ceasing.", "abbrev": "1th", "chapter": 5, "image": "/images/verses/nov-28.png" },
+    { "dateId": "11-29", "theme": "Light", "ref": "Matthew 5:16", "text": "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven.", "abbrev": "mt", "chapter": 5, "image": "/images/verses/nov-29.png" },
+    { "dateId": "11-30", "theme": "Victory", "ref": "1 Corinthians 15:57", "text": "But thanks be to God, which giveth us the victory through our Lord Jesus Christ.", "abbrev": "1co", "chapter": 15, "image": "/images/verses/nov-30.png" },
+    { "dateId": "default", "theme": "General", "ref": "John 3:16", "text": "For God so loved the world...", "abbrev": "jn", "chapter": 3, "image": "/images/verses/john-3-16.jpg" }
   ],
   "es": [
-    {
-      "day": 1,
-      "ref": "Juan 3:16",
-      "text": "Porque de tal manera amó Dios al mundo, que ha dado á su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.",
-      "abbrev": "jn",
-      "chapter": 3
-    },
-    {
-      "day": 2,
-      "ref": "Filipenses 4:13",
-      "text": "Todo lo puedo en Cristo que me fortalece.",
-      "abbrev": "php",
-      "chapter": 4
-    }
+    { "dateId": "11-1", "theme": "Fe", "ref": "Hebreos 11:1", "text": "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.", "abbrev": "heb", "chapter": 11, "image": "/images/verses/nov-1-es.png" },
+    { "dateId": "11-2", "theme": "Amor", "ref": "1 Juan 4:19", "text": "Nosotros le amamos a él, porque él nos amó primero.", "abbrev": "1jn", "chapter": 4, "image": "/images/verses/nov-2-es.png" },
+    { "dateId": "11-3", "theme": "Esperanza", "ref": "Romanos 15:13", "text": "Y el Dios de esperanza os llene de todo gozo y paz en el creer, para que abundéis en esperanza por el poder del Espíritu Santo.", "abbrev": "rm", "chapter": 15, "image": "/images/verses/nov-3-es.png" },
+    { "dateId": "11-4", "theme": "Paz", "ref": "Juan 14:27", "text": "La paz os dejo, mi paz os doy; yo no os la doy como el mundo la da. No se turbe vuestro corazón, ni tenga miedo.", "abbrev": "jn", "chapter": 14, "image": "/images/verses/nov-4-es.png" },
+    { "dateId": "11-5", "theme": "Fortaleza", "ref": "Isaías 40:31", "text": "Pero los que esperan a Jehová tendrán nuevas fuerzas; levantarán alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.", "abbrev": "isa", "chapter": 40, "image": "/images/verses/nov-5-es.png" },
+    { "dateId": "11-6", "theme": "Confianza", "ref": "Proverbios 3:5-6", "text": "Fíate de Jehová de todo tu corazón, Y no te apoyes en tu propia prudencia. Reconócelo en todos tus caminos, Y él enderezará tus veredas.", "abbrev": "pro", "chapter": 3, "image": "/images/verses/nov-6-es.png" },
+    { "dateId": "11-7", "theme": "Guía", "ref": "Salmos 32:8", "text": "Te haré entender, y te enseñaré el camino en que debes andar; Sobre ti fijaré mis ojos.", "abbrev": "ps", "chapter": 32, "image": "/images/verses/nov-7-es.png" },
+    { "dateId": "11-8", "theme": "Gracia", "ref": "Efesios 2:8-9", "text": "Porque por gracia sois salvos por medio de la fe; y esto no de vosotros, pues es don de Dios; no por obras, para que nadie se gloríe.", "abbrev": "eph", "chapter": 2, "image": "/images/verses/nov-8-es.png" },
+    { "dateId": "11-9", "theme": "Misericordia", "ref": "Lamentaciones 3:22-23", "text": "Por la misericordia de Jehová no hemos sido consumidos, porque nunca decayeron sus misericordias. Nuevas son cada mañana; grande es tu fidelidad.", "abbrev": "lam", "chapter": 3, "image": "/images/verses/nov-9-es.png" },
+    { "dateId": "11-10", "theme": "Consuelo", "ref": "2 Corintios 1:3-4", "text": "Bendito sea el Dios y Padre de nuestro Señor Jesucristo, Padre de misericordias y Dios de toda consolación, el cual nos consuela en todas nuestras tribulaciones.", "abbrev": "2co", "chapter": 1, "image": "/images/verses/nov-10-es.png" },
+    { "dateId": "11-11", "theme": "Valentía", "ref": "Josué 1:9", "text": "Mira que te mando que te esfuerces y seas valiente; no temas ni desmayes, porque Jehová tu Dios estará contigo en dondequiera que vayas.", "abbrev": "jos", "chapter": 1, "image": "/images/verses/nov-11-es.png" },
+    { "dateId": "11-12", "theme": "Sabiduría", "ref": "Santiago 1:5", "text": "Y si alguno de vosotros tiene falta de sabiduría, pídala a Dios, el cual da a todos abundantemente y sin reproche, y le será dada.", "abbrev": "jas", "chapter": 1, "image": "/images/verses/nov-12-es.png" },
+    { "dateId": "11-13", "theme": "Gozo", "ref": "Nehemías 8:10", "text": "...porque el gozo de Jehová es vuestra fuerza.", "abbrev": "neh", "chapter": 8, "image": "/images/verses/nov-13-es.png" },
+    { "dateId": "11-14", "theme": "Paciencia", "ref": "Romanos 12:12", "text": "gozosos en la esperanza; sufridos en la tribulación; constantes en la oración;", "abbrev": "rm", "chapter": 12, "image": "/images/verses/nov-14-es.png" },
+    { "dateId": "11-15", "theme": "Amabilidad", "ref": "Efesios 4:32", "text": "Antes sed benignos unos con otros, misericordiosos, perdonándoos unos a otros, como Dios también os perdonó a vosotros en Cristo.", "abbrev": "eph", "chapter": 4, "image": "/images/verses/nov-15-es.png" },
+    { "dateId": "11-16", "theme": "Perdón", "ref": "1 Juan 1:9", "text": "Si confesamos nuestros pecados, él es fiel y justo para perdonar nuestros pecados, y limpiarnos de toda maldad.", "abbrev": "1jn", "chapter": 1, "image": "/images/verses/nov-16-es.png" },
+    { "dateId": "11-17", "theme": "Protección", "ref": "Salmos 91:1-2", "text": "El que habita al abrigo del Altísimo Morará bajo la sombra del Omnipotente. Diré yo a Jehová: Esperanza mía, y castillo mío; Mi Dios, en quien confiaré.", "abbrev": "ps", "chapter": 91, "image": "/images/verses/nov-17-es.png" },
+    { "dateId": "11-18", "theme": "Provisión", "ref": "Filipenses 4:19", "text": "Mi Dios, pues, suplirá todo lo que os falta conforme a sus riquezas en gloria en Cristo Jesús.", "abbrev": "php", "chapter": 4, "image": "/images/verses/nov-18-es.png" },
+    { "dateId": "11-19", "theme": "Sanidad", "ref": "Jeremías 17:14", "text": "Sáname, oh Jehová, y seré sano; sálvame, y seré salvo; porque tú eres mi alabanza.", "abbrev": "jer", "chapter": 17, "image": "/images/verses/nov-19-es.png" },
+    { "dateId": "11-20", "theme": "Adoración", "ref": "Juan 4:24", "text": "Dios es Espíritu; y los que le adoran, en espíritu y en verdad es necesario que adoren.", "abbrev": "jn", "chapter": 4, "image": "/images/verses/nov-20-es.png" },
+    { "dateId": "11-21", "theme": "Gratitud", "ref": "1 Tesalonicenses 5:18", "text": "Dad gracias en todo, porque esta es la voluntad de Dios para con vosotros en Cristo Jesús.", "abbrev": "1th", "chapter": 5, "image": "/images/verses/nov-21-es.png" },
+    { "dateId": "11-22", "theme": "Humildad", "ref": "Santiago 4:10", "text": "Humillaos delante del Señor, y él os exaltará.", "abbrev": "jas", "chapter": 4, "image": "/images/verses/nov-22-es.png" },
+    { "dateId": "11-23", "theme": "Obediencia", "ref": "Juan 14:15", "text": "Si me amáis, guardad mis mandamientos.", "abbrev": "jn", "chapter": 14, "image": "/images/verses/nov-23-es.png" },
+    { "dateId": "11-24", "theme": "Fidelidad", "ref": "Lamentaciones 3:23", "text": "Grande es tu fidelidad.", "abbrev": "lam", "chapter": 3, "image": "/images/verses/nov-24-es.png" },
+    { "dateId": "11-25", "theme": "Salvación", "ref": "Romanos 10:9", "text": "que si confesares con tu boca que Jesús es el Señor, y creyeres en tu corazón que Dios le levantó de los muertos, serás salvo.", "abbrev": "rm", "chapter": 10, "image": "/images/verses/nov-25-es.png" },
+    { "dateId": "11-26", "theme": "Vida Eterna", "ref": "Juan 3:16", "text": "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.", "abbrev": "jn", "chapter": 3, "image": "/images/verses/nov-26-es.png" },
+    { "dateId": "11-27", "theme": "Palabra de Dios", "ref": "Hebreos 4:12", "text": "Porque la palabra de Dios es viva y eficaz, y más cortante que toda espada de dos filos...", "abbrev": "heb", "chapter": 4, "image": "/images/verses/nov-27-es.png" },
+    { "dateId": "11-28", "theme": "Oración", "ref": "1 Tesalonicenses 5:17", "text": "Orad sin cesar.", "abbrev": "1th", "chapter": 5, "image": "/images/verses/nov-28-es.png" },
+    { "dateId": "11-29", "theme": "Luz", "ref": "Mateo 5:16", "text": "Así alumbre vuestra luz delante de los hombres, para que vean vuestras buenas obras, y glorifiquen a vuestro Padre que está en los cielos.", "abbrev": "mt", "chapter": 5, "image": "/images/verses/nov-29-es.png" },
+    { "dateId": "11-30", "theme": "Victoria", "ref": "1 Corintios 15:57", "text": "Mas gracias sean dadas a Dios, que nos da la victoria por medio de nuestro Señor Jesucristo.", "abbrev": "1co", "chapter": 15, "image": "/images/verses/nov-30-es.png" },
+    { "dateId": "default", "theme": "General", "ref": "Juan 3:16", "text": "Porque de tal manera...", "abbrev": "jn", "chapter": 3, "image": "/images/verses/juan-3-16.jpg" }
   ]
 }

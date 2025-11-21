@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// ඔක්කොම Articles ටික අලුත් එකේ ඉඳන් පරණ එකට Sort කරනවා
+const allPosts = (await getCollection('articles')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const title = "Christian Resources & Articles";
+const description = "Read inspiring articles, bible studies, and guides to grow your faith. Free resources for baptism, birthdays, and more.";
+---
+
+<BaseLayout title={title} description={description}>
+
+    <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-4">
+            Resources & <span class="text-blue-600 dark:text-blue-400">Articles</span>
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Deepen your understanding with our collection of Bible studies, prayer guides, and free downloadable resources.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {allPosts.map((post) => (
+            <a href={`/resources/${post.slug}/`} class="group bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
+                
+                <div class="h-48 overflow-hidden relative">
+                    {post.data.image ? (
+                        <img src={post.data.image} alt={post.data.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    ) : (
+                        <div class="w-full h-full bg-blue-100 dark:bg-gray-700 flex items-center justify-center">
+                            <span class="text-4xl">📖</span>
+                        </div>
+                    )}
+                </div>
+
+                <div class="p-6">
+                    <div class="flex gap-2 mb-3">
+                        {post.data.tags.slice(0, 2).map(tag => (
+                            <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+                                #{tag}
+                            </span>
+                        ))}
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {post.data.title}
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3">
+                        {post.data.description}
+                    </p>
+                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center text-xs text-gray-500 dark:text-gray-500">
+                        <span>{post.data.pubDate.toISOString().split('T')[0]}</span>
+                        <span class="font-bold flex items-center gap-1">Read Article &rarr;</span>
+                    </div>
+                </div>
+            </a>
+        ))}
+    </div>
+
+</BaseLayout>
