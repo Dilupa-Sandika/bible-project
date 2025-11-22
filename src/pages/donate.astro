@@ -2,9 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = "Support ScriptureHub";
+const description = "Help us keep ScriptureHub free and accessible to everyone. Donate as little as $1.";
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} description={description}>
 
     <div class="max-w-4xl mx-auto">
         
@@ -13,42 +14,48 @@ const title = "Support ScriptureHub";
                 Help Us Spread the <span class="text-blue-600 dark:text-blue-400">Word</span>
             </h1>
             <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                ScriptureHub is a free resource built to share the wisdom of the Bible with the world. Your support helps us keep the servers running and create new features.
+                ScriptureHub is a free resource built to share the wisdom of the Bible. Your support helps us keep the servers running.
             </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             
             <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-                    Choose an Amount
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+                    Support Us
                 </h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Even $1 makes a huge difference!</p>
 
                 <div class="grid grid-cols-3 gap-4 mb-8">
+                    <button class="p-4 rounded-xl border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold shadow-sm hover:scale-105 transition-transform">
+                        $1
+                    </button>
+                    <button class="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all font-bold text-gray-700 dark:text-gray-300">
+                        $3
+                    </button>
                     <button class="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all font-bold text-gray-700 dark:text-gray-300">
                         $5
                     </button>
-                    <button class="p-4 rounded-xl border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold shadow-sm">
-                        $10
-                    </button>
-                    <button class="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all font-bold text-gray-700 dark:text-gray-300">
-                        $25
-                    </button>
+                </div>
+
+                <div class="relative mb-6">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                    <input type="number" placeholder="Other Amount" class="w-full pl-8 pr-4 py-3 rounded-xl border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" />
                 </div>
 
                 <a href="#" class="block w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg shadow-lg transform hover:-translate-y-1 transition-all">
                     Donate via PayPal
                 </a>
                 
-                <p class="mt-4 text-sm text-gray-400">
-                    Secure payment processed by PayPal. You can also use Credit Card.
+                <p class="mt-4 text-xs text-gray-400">
+                    Secure payment processed by PayPal. Cancel monthly support anytime.
                 </p>
 
                 <a href="#" class="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black font-bold shadow-md transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
-                    Buy us a Coffee
+                    Buy us a Coffee ($3)
                 </a>
             </div>
 
@@ -56,29 +63,29 @@ const title = "Support ScriptureHub";
                 <div class="bg-blue-50 dark:bg-gray-700/50 p-6 rounded-2xl">
                     <h3 class="font-bold text-lg text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                        Server Costs
+                        Keep it Ad-Free
                     </h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm">
-                        Hosting a fast website with thousands of images and audio files costs money every month.
+                        We want to keep God's word free from distracting pop-up ads. Your $1 helps cover server costs.
                     </p>
                 </div>
 
                 <div class="bg-green-50 dark:bg-gray-700/50 p-6 rounded-2xl">
                     <h3 class="font-bold text-lg text-green-800 dark:text-green-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                        New Features
+                        Create More Resources
                     </h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm">
-                        Your support helps us develop mobile apps, coloring books, and add more Bible translations.
+                        Your support allows us to design more free coloring books, cards, and study guides for everyone.
                     </p>
                 </div>
 
                 <div class="bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-700 p-6 rounded-2xl text-center">
                     <h3 class="font-bold text-purple-800 dark:text-purple-300 mb-2">
-                        🎁 Free Gift!
+                        🎁 Special Thank You
                     </h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                        Donate $10 or more and get our exclusive <strong>Printable Bible Coloring Book (PDF)</strong> instantly!
+                        Become a monthly supporter ($1/mo) and get early access to all our new designs!
                     </p>
                 </div>
             </div>
