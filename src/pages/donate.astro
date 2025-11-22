@@ -3,6 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = "Support ScriptureHub";
 const description = "Help us keep ScriptureHub free and accessible to everyone. Donate as little as $1.";
+
+// ඔබේ Payment Links මෙතනට දාන්න
+const links = {
+    monthly_1: "https://buy.stripe.com/your-1-dollar-link", 
+    one_time_any: "https://www.paypal.com/donate/?hosted_button_id=YOUR_ID",
+    coffee: "https://www.buymeacoffee.com/yourname"
+};
 ---
 
 <BaseLayout title={title} description={description}>
@@ -22,76 +29,54 @@ const description = "Help us keep ScriptureHub free and accessible to everyone. 
             
             <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-                    Support Us
+                    Become a Supporter
                 </h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Even $1 makes a huge difference!</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Join our mission for just $1.</p>
 
-                <div class="grid grid-cols-3 gap-4 mb-8">
-                    <button class="p-4 rounded-xl border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold shadow-sm hover:scale-105 transition-transform">
-                        $1
-                    </button>
-                    <button class="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all font-bold text-gray-700 dark:text-gray-300">
-                        $3
-                    </button>
-                    <button class="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all font-bold text-gray-700 dark:text-gray-300">
-                        $5
-                    </button>
+                <a href={links.monthly_1} target="_blank" class="block w-full p-4 mb-6 rounded-xl border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold shadow-sm hover:scale-105 transition-transform flex justify-between items-center">
+                    <span>Monthly Support</span>
+                    <span class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full">$1 / mo</span>
+                </a>
+
+                <div class="relative flex py-2 items-center mb-6">
+                    <div class="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+                    <span class="flex-shrink-0 mx-4 text-gray-400 text-xs uppercase font-bold">One-Time Gifts</span>
+                    <div class="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
                 </div>
 
-                <div class="relative mb-6">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-                    <input type="number" placeholder="Other Amount" class="w-full pl-8 pr-4 py-3 rounded-xl border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" />
+                <div class="grid grid-cols-2 gap-4">
+                    <a href={links.coffee} target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black font-bold shadow-md transition-all">
+                        ☕ Coffee ($3)
+                    </a>
+                    <a href={links.one_time_any} target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold transition-all">
+                        PayPal
+                    </a>
                 </div>
-
-                <a href="#" class="block w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg shadow-lg transform hover:-translate-y-1 transition-all">
-                    Donate via PayPal
-                </a>
-                
-                <p class="mt-4 text-xs text-gray-400">
-                    Secure payment processed by PayPal. Cancel monthly support anytime.
-                </p>
-
-                <a href="#" class="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black font-bold shadow-md transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Buy us a Coffee ($3)
-                </a>
             </div>
 
             <div class="space-y-6">
-                <div class="bg-blue-50 dark:bg-gray-700/50 p-6 rounded-2xl">
+                <div class="bg-blue-50 dark:bg-gray-700/50 p-6 rounded-2xl border border-blue-100 dark:border-gray-600">
                     <h3 class="font-bold text-lg text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                        Keep it Ad-Free
+                        ❤️ Why $1 Matters?
                     </h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm">
-                        We want to keep God's word free from distracting pop-up ads. Your $1 helps cover server costs.
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                        It might seem small, but if 100 people give $1, our server costs are covered forever. It's a small amount for you, but a huge blessing for us.
                     </p>
                 </div>
 
-                <div class="bg-green-50 dark:bg-gray-700/50 p-6 rounded-2xl">
-                    <h3 class="font-bold text-lg text-green-800 dark:text-green-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                        Create More Resources
+                <div class="bg-green-50 dark:bg-green-900/20 p-6 rounded-2xl border border-green-100 dark:border-green-800">
+                    <h3 class="font-bold text-lg text-green-800 dark:text-green-300 mb-2">
+                        🎁 Supporter Perks
                     </h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm">
-                        Your support allows us to design more free coloring books, cards, and study guides for everyone.
-                    </p>
-                </div>
-
-                <div class="bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-700 p-6 rounded-2xl text-center">
-                    <h3 class="font-bold text-purple-800 dark:text-purple-300 mb-2">
-                        🎁 Special Thank You
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                        Become a monthly supporter ($1/mo) and get early access to all our new designs!
-                    </p>
+                    <ul class="text-gray-600 dark:text-gray-300 text-sm text-left space-y-3">
+                        <li class="flex gap-2">✅ <span class="flex-1">Early access to new Coloring Books</span></li>
+                        <li class="flex gap-2">✅ <span class="flex-1">Direct email support from our team</span></li>
+                        <li class="flex gap-2">✅ <span class="flex-1">Your name in our "Thank You" list</span></li>
+                    </ul>
                 </div>
             </div>
 
         </div>
-
     </div>
 
 </BaseLayout>

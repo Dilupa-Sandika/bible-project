@@ -26,9 +26,7 @@ const title = `${item.title} - Download`;
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         
         <div class="space-y-4">
-            
             <div class="relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 dark:bg-gray-800 aspect-square group">
-                
                 <img id="main-image" src={item.gallery[0]} class="w-full h-full object-cover transition-all duration-300" alt={item.title} />
                 
                 {item.gallery.length > 1 && (
@@ -63,9 +61,9 @@ const title = `${item.title} - Download`;
                 <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                     {item.type}
                 </span>
-                {item.is_premium && (
-                    <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                        Premium
+                {item.print_link && (
+                    <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Print Available
                     </span>
                 )}
             </div>
@@ -78,53 +76,38 @@ const title = `${item.title} - Download`;
                 <Content />
             </div>
 
-            {item.is_premium ? (
-                <a href={item.file_link} target="_blank" class="block w-full py-4 text-center bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-lg shadow-lg transition-transform transform hover:-translate-y-1">
-                    Buy on Etsy {item.price ? `(${item.price})` : ''}
-                </a>
-            ) : (
-                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
-                    <h3 class="font-bold text-gray-800 dark:text-gray-200 mb-2">Free Download</h3>
-                    <p class="text-sm text-gray-500 mb-4">Enter your email to unlock the download link instantly.</p>
-                    
-                    <button 
-                        id="open-modal"
-                        class="block w-full py-4 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-lg shadow-lg transition-transform transform hover:-translate-y-1"
-                    >
-                        Download Now
-                    </button>
-                </div>
-            )}
-        </div>
-    </div>
-
-    <div id="email-modal" class="fixed inset-0 bg-black/80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity opacity-0">
-        <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-md w-full p-8 relative shadow-2xl transform scale-95 transition-transform" id="modal-content">
-            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-red-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-            
-            <div class="text-center">
-                <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">Download Ready!</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-6 text-sm">Where should we send your free file?</p>
+            <div class="space-y-4">
                 
-                <form id="download-form" class="space-y-4">
-                    <input type="email" placeholder="Your best email address" required class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" />
-                    <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg">
-                        Send Me the Link
-                    </button>
-                </form>
-                <p class="text-xs text-gray-400 mt-4">No spam, ever. Unsubscribe anytime.</p>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
+                    <h3 class="font-bold text-gray-800 dark:text-gray-200 mb-1">Digital Version (PDF)</h3>
+                    <p class="text-sm text-gray-500 mb-4">Instant download. Print at home.</p>
+                    
+                    <a href={item.digital_link} target="_blank" class="flex items-center justify-center gap-2 w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-lg shadow-lg transition-transform transform hover:-translate-y-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        Get for FREE
+                    </a>
+                    <p class="text-xs text-center text-gray-400 mt-3">
+                        Use code <strong class="text-blue-600 dark:text-blue-400">FREE</strong> at checkout for 100% discount.
+                    </p>
+                </div>
+
+                {item.print_link && (
+                    <div class="bg-purple-50 dark:bg-purple-900/20 p-6 rounded-2xl border border-purple-200 dark:border-purple-700/50">
+                        <h3 class="font-bold text-purple-900 dark:text-purple-100 mb-1">Want a Printed Copy?</h3>
+                        <p class="text-sm text-purple-700 dark:text-purple-300 mb-4">Get a high-quality physical version shipped to you.</p>
+                        
+                        <a href={item.print_link} target="_blank" class="flex items-center justify-center gap-2 w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-lg shadow-lg transition-transform transform hover:-translate-y-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                            {item.print_label || "Buy Physical Copy"}
+                        </a>
+                    </div>
+                )}
+
             </div>
         </div>
     </div>
 
-    <script is:inline define:vars={{ fileLink: item.file_link, gallery: item.gallery }}>
-        
-        // --- IMAGE SLIDER LOGIC ---
+    <script is:inline define:vars={{ gallery: item.gallery }}>
         const mainImage = document.getElementById('main-image');
         const thumbnails = document.querySelectorAll('.thumbnail');
         const prevBtn = document.getElementById('prev-img');
@@ -139,81 +122,18 @@ const title = `${item.title} - Download`;
             currentIndex = index;
             mainImage.src = gallery[currentIndex];
             
-            // Update active thumbnail border
             thumbnails.forEach((thumb, i) => {
                 if(i === currentIndex) thumb.classList.add('border-blue-500');
                 else thumb.classList.remove('border-blue-500');
             });
         }
 
-        // Thumbnail Click
         thumbnails.forEach((btn, index) => {
             btn.addEventListener('click', () => updateImage(index));
         });
 
-        // Arrows Click
         if(prevBtn) prevBtn.addEventListener('click', () => updateImage(currentIndex - 1));
         if(nextBtn) nextBtn.addEventListener('click', () => updateImage(currentIndex + 1));
-
-
-        // --- MODAL LOGIC ---
-        const modal = document.getElementById('email-modal');
-        const modalContent = document.getElementById('modal-content');
-        const openBtn = document.getElementById('open-modal');
-        const closeBtn = document.getElementById('close-modal');
-        const form = document.getElementById('download-form');
-
-        function openModal() {
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
-            }, 10);
-        }
-
-        function closeModal() {
-            modal.classList.add('opacity-0');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        if(openBtn) openBtn.addEventListener('click', openModal);
-        if(closeBtn) closeBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
-
-        // --- DOWNLOAD LOGIC ---
-        if(form) {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const btn = form.querySelector('button');
-                const originalText = btn.innerText;
-                
-                btn.innerText = "Processing...";
-                btn.disabled = true;
-                btn.classList.add('opacity-75');
-
-                // Simulate processing delay
-                setTimeout(() => {
-                    btn.innerText = "Success! Downloading...";
-                    btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-                    btn.classList.add('bg-green-600', 'hover:bg-green-700');
-                    
-                    // Trigger Download
-                    window.open(fileLink, '_blank');
-                    
-                    setTimeout(() => {
-                        closeModal();
-                        form.reset();
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                        btn.classList.remove('opacity-75', 'bg-green-600', 'hover:bg-green-700');
-                        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-                    }, 1500);
-                }, 1000);
-            });
-        }
     </script>
 
 </BaseLayout>

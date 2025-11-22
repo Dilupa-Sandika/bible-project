@@ -5,8 +5,10 @@ filter_tag: "kids"
 gallery: 
   - "/images/downloads/coloring-book-cover.jpg"
   - "/images/downloads/coloring-page-1.jpg"
-file_link: "/downloads/files/bible-heroes.pdf"
+digital_link: "https://gumroad.com/l/YOUR_BOOK_ID"
+print_link: "https://www.amazon.com/dp/YOUR_BOOK_ID"
 is_premium: false
+print_label: "Buy Paperback on Amazon"
 short_desc: "Fun coloring pages featuring David, Moses, and Daniel."
 ---
 
