@@ -1,27 +1,36 @@
 ---
-title: "Bible Heroes Coloring Book"
+title_en: "Bible Heroes Coloring Book"
+title_es: "Libro para Colorear Héroes Bíblicos"
 type: "book"
 filter_tag: "kids"
 gallery: 
   - "/images/downloads/coloring-book-cover.jpg"
   - "/images/downloads/coloring-page-1.jpg"
-digital_link: "https://gumroad.com/l/YOUR_BOOK_ID"
-print_link: "https://www.amazon.com/dp/YOUR_BOOK_ID"
+digital_link: "https://gumroad.com/l/bible-heroes/SHFREE"
+print_link: "https://amazon.com/dp/YOUR_ID"
+print_label_en: "Buy Paperback on Amazon"
+print_label_es: "Comprar en Amazon"
 is_premium: false
-print_label: "Buy Paperback on Amazon"
-short_desc: "Fun coloring pages featuring David, Moses, and Daniel."
+short_desc_en: "Fun coloring pages featuring David, Moses, and Daniel."
+short_desc_es: "Divertidas páginas para colorear con David, Moisés y Daniel."
 ---
 
-### About this Coloring Book
-This book is designed to help children learn about **Bible Heroes** while having fun! It includes:
+<div class="lang-en">
+<h3>About this Coloring Book</h3>
+<p>This book is designed to help children learn about <strong>Bible Heroes</strong> while having fun! It includes:</p>
+<ul>
+<li><strong>David & Goliath</strong> action scene</li>
+<li><strong>Moses</strong> parting the Red Sea</li>
+<li><strong>Daniel</strong> in the Lions' Den</li>
+</ul>
+</div>
 
-* **David & Goliath** action scene
-* **Moses** parting the Red Sea
-* **Daniel** in the Lions' Den
-
-Perfect for:
-1. Sunday School activities
-2. Homeschooling
-3. Rainy day fun
-
-Download it for free and print as many copies as you need!
+<div class="lang-es hidden">
+<h3>Sobre este libro</h3>
+<p>¡Este libro está diseñado para ayudar a los niños a aprender sobre los <strong>Héroes de la Biblia</strong> mientras se divierten! Incluye:</p>
+<ul>
+<li><strong>David y Goliat</strong> escena de acción</li>
+<li><strong>Moisés</strong> dividiendo el Mar Rojo</li>
+<li><strong>Daniel</strong> en el foso de los leones</li>
+</ul>
+</div>
