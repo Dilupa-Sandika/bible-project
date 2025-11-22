@@ -5,22 +5,45 @@ import rvrBible from '../data/es_rvr.json';
 import votdData from '../data/votd_data.json';
 
 // --- BIBLE BOOK LOGIC ---
-// Old Testament (First 39 books) & New Testament (Last 27 books)
 const enOT = kjvBible.slice(0, 39);
 const enNT = kjvBible.slice(39);
 
-const esOT = rvrBible.slice(0, 39);
-const esNT = rvrBible.slice(39);
+// Spanish Mapping: Map book names to Spanish
+const esBookNames = {
+  "Genesis": "Génesis", "Exodus": "Éxodo", "Leviticus": "Levítico", "Numbers": "Números", "Deuteronomy": "Deuteronomio",
+  "Joshua": "Josué", "Judges": "Jueces", "Ruth": "Rut", "1 Samuel": "1 Samuel", "2 Samuel": "2 Samuel",
+  "1 Kings": "1 Reyes", "2 Kings": "2 Reyes", "1 Chronicles": "1 Crónicas", "2 Chronicles": "2 Crónicas",
+  "Ezra": "Esdras", "Nehemiah": "Nehemías", "Esther": "Ester", "Job": "Job", "Psalms": "Salmos",
+  "Proverbs": "Proverbios", "Ecclesiastes": "Eclesiastés", "Song of Solomon": "Cantares", "Isaiah": "Isaías",
+  "Jeremiah": "Jeremías", "Lamentations": "Lamentaciones", "Ezekiel": "Ezequiel", "Daniel": "Daniel",
+  "Hosea": "Oseas", "Joel": "Joel", "Amos": "Amós", "Obadiah": "Abdías", "Jonah": "Jonás",
+  "Micah": "Miqueas", "Nahum": "Nahúm", "Habakkuk": "Habacuc", "Zephaniah": "Sofonías", "Haggai": "Hageo",
+  "Zechariah": "Zacarías", "Malachi": "Malaquías", "Matthew": "Mateo", "Mark": "Marcos", "Luke": "Lucas",
+  "John": "Juan", "Acts": "Hechos", "Romans": "Romanos", "1 Corinthians": "1 Corintios", "2 Corinthians": "2 Corintios",
+  "Galatians": "Gálatas", "Ephesians": "Efesios", "Philippians": "Filipenses", "Colossians": "Colosenses",
+  "1 Thessalonians": "1 Tesalonicenses", "2 Thessalonians": "2 Tesalonicenses", "1 Timothy": "1 Timoteo",
+  "2 Timothy": "2 Timoteo", "Titus": "Tito", "Philemon": "Filemón", "Hebrews": "Hebreos", "James": "Santiago",
+  "1 Peter": "1 Pedro", "2 Peter": "2 Pedro", "1 John": "1 Juan", "2 John": "2 Juan", "3 John": "3 Juan",
+  "Jude": "Judas", "Revelation": "Apocalipsis"
+};
+
+const rvrBibleMapped = rvrBible.map(book => ({
+    ...book,
+    name: esBookNames[book.name] || book.name
+}));
+
+const esOT = rvrBibleMapped.slice(0, 39);
+const esNT = rvrBibleMapped.slice(39);
 
 // --- SMART DATE LOGIC ---
 const date = new Date();
 const todayId = `${date.getMonth() + 1}-${date.getDate()}`;
 
-// English Verse Logic
+// English Verse
 let votdEn = votdData.en.find(v => v.dateId === todayId);
 if (!votdEn) votdEn = votdData.en.find(v => v.dateId === "default") || votdData.en[0];
 
-// Spanish Verse Logic
+// Spanish Verse
 let votdEs = votdData.es.find(v => v.dateId === todayId);
 if (!votdEs) votdEs = votdData.es.find(v => v.dateId === "default") || votdData.es[0];
 
@@ -46,7 +69,7 @@ const siteUrl = Astro.url.origin;
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden mb-12 border border-gray-100 dark:border-gray-700">
+    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden mb-16 border border-gray-100 dark:border-gray-700">
         
         <div class="relative h-64 md:h-96 bg-gray-900 group">
             <img id="votd-img-en" src={imgEn} class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-100" alt={`Verse: ${votdEn.ref}`} />
@@ -61,14 +84,14 @@ const siteUrl = Astro.url.origin;
             </div>
         </div>
 
-        <div class="p-6 md:p-8">
+        <div class="p-6 md:p-8 text-center">
             
             <div id="text-en" class="transition-opacity duration-300 block">
                 <h2 class="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">Verse of the Day</h2>
                 <blockquote class="text-xl md:text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-4">
                     "{votdEn.text}"
                 </blockquote>
-                <a href={`/en/${votdEn.abbrev}/${votdEn.chapter}/`} class="inline-block font-bold text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <a href={`/en/${votdEn.abbrev}/${votdEn.chapter}/`} class="inline-block text-lg font-bold text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
                     - {votdEn.ref} &rarr;
                 </a>
             </div>
@@ -78,25 +101,23 @@ const siteUrl = Astro.url.origin;
                 <blockquote class="text-xl md:text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-4">
                     "{votdEs.text}"
                 </blockquote>
-                <a href={`/es/${votdEs.abbrev}/${votdEs.chapter}/`} class="inline-block font-bold text-gray-500 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                <a href={`/es/${votdEs.abbrev}/${votdEs.chapter}/`} class="inline-block text-lg font-bold text-gray-500 hover:text-green-600 dark:hover:text-green-400 transition-colors cursor-pointer">
                     - {votdEs.ref} &rarr;
                 </a>
             </div>
 
-            <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 flex flex-wrap gap-4 justify-between items-center">
-                <div class="flex gap-2">
-                    <a href={`https://www.facebook.com/sharer/sharer.php?u=${siteUrl}`} target="_blank" class="p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                    </a>
-                    <a href={`https://pinterest.com/pin/create/button/?url=${siteUrl}&media=${siteUrl}${imgEn}&description=Verse of the day`} target="_blank" class="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-300 transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.399.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.951-7.252 4.173 0 7.41 2.967 7.41 6.923 0 4.135-2.607 7.512-6.224 7.512-1.21 0-2.348-.63-2.738-1.373 0 0-.599 2.282-.744 2.84-.282 1.084-1.064 2.456-1.549 3.235C9.54 19.876 10.79 20 12.017 20c6.613 0 11.979-5.365 11.979-11.987C23.996 5.367 18.63 0 12.017 0z"/></svg>
-                    </a>
-                    <a href={`whatsapp://send?text=${siteUrl}`} class="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-300 transition-colors">
-                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.897.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 flex justify-center gap-4">
+                <a href={`https://www.facebook.com/sharer/sharer.php?u=${siteUrl}`} target="_blank" class="p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href={`https://pinterest.com/pin/create/button/?url=${siteUrl}&media=${siteUrl}${imgEn}&description=Verse of the day`} target="_blank" class="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-300">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.399.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.951-7.252 4.173 0 7.41 2.967 7.41 6.923 0 4.135-2.607 7.512-6.224 7.512-1.21 0-2.348-.63-2.738-1.373 0 0-.599 2.282-.744 2.84-.282 1.084-1.064 2.456-1.549 3.235C9.54 19.876 10.79 20 12.017 20c6.613 0 11.979-5.365 11.979-11.987C23.996 5.367 18.63 0 12.017 0z"/></svg>
+                </a>
+                <a href={`whatsapp://send?text=${siteUrl}`} class="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-300 transition-colors">
+                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.897.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     </a>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -112,17 +133,15 @@ const siteUrl = Astro.url.origin;
         
         <form name="subscribe" method="POST" data-netlify="true" class="flex flex-col sm:flex-row gap-3 relative">
             <input type="hidden" name="form-name" value="subscribe" />
-            
             <input type="email" name="email" placeholder="Enter your email address" required 
                 class="flex-grow px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-300 border-none" />
-            
             <button type="submit" class="px-6 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-md">
                 <span class="lang-en">Subscribe</span>
                 <span class="lang-es hidden">Suscribirse</span>
             </button>
         </form>
     </div>
-
+    
     <div class="lang-en">
         <div class="mb-12">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3">
@@ -130,18 +149,17 @@ const siteUrl = Astro.url.origin;
             </h2>
             <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {enOT.map(book => (
-                    <li><a href={`/en/${book.abbrev}/`} class="block p-3 rounded-lg bg-blue-50 dark:bg-gray-800 text-blue-900 dark:text-blue-100 hover:bg-blue-100 dark:hover:bg-gray-700 font-medium text-center transition-colors border border-blue-100 dark:border-gray-700">{book.name}</a></li>
+                    <li><a href={`/en/${book.abbrev}/`} class="block p-3 rounded-lg bg-blue-50 dark:bg-gray-800 text-blue-900 dark:text-blue-100 hover:bg-blue-100 dark:hover:bg-gray-700 text-center border border-blue-100 dark:border-gray-700">{book.name}</a></li>
                 ))}
             </ul>
         </div>
-
         <div>
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3">
                 <span class="w-8 h-1 bg-blue-600 rounded-full"></span> New Testament
             </h2>
             <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {enNT.map(book => (
-                    <li><a href={`/en/${book.abbrev}/`} class="block p-3 rounded-lg bg-blue-50 dark:bg-gray-800 text-blue-900 dark:text-blue-100 hover:bg-blue-100 dark:hover:bg-gray-700 font-medium text-center transition-colors border border-blue-100 dark:border-gray-700">{book.name}</a></li>
+                    <li><a href={`/en/${book.abbrev}/`} class="block p-3 rounded-lg bg-blue-50 dark:bg-gray-800 text-blue-900 dark:text-blue-100 hover:bg-blue-100 dark:hover:bg-gray-700 text-center border border-blue-100 dark:border-gray-700">{book.name}</a></li>
                 ))}
             </ul>
         </div>
@@ -154,18 +172,17 @@ const siteUrl = Astro.url.origin;
             </h2>
             <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {esOT.map(book => (
-                    <li><a href={`/es/${book.abbrev}/`} class="block p-3 rounded-lg bg-green-50 dark:bg-gray-800 text-green-900 dark:text-green-100 hover:bg-green-100 dark:hover:bg-gray-700 font-medium text-center transition-colors border border-green-100 dark:border-gray-700">{book.name}</a></li>
+                    <li><a href={`/es/${book.abbrev}/`} class="block p-3 rounded-lg bg-green-50 dark:bg-gray-800 text-green-900 dark:text-green-100 hover:bg-green-100 dark:hover:bg-gray-700 text-center border border-green-100 dark:border-gray-700">{book.name}</a></li>
                 ))}
             </ul>
         </div>
-
         <div>
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3">
                 <span class="w-8 h-1 bg-green-600 rounded-full"></span> Nuevo Testamento
             </h2>
             <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {esNT.map(book => (
-                    <li><a href={`/es/${book.abbrev}/`} class="block p-3 rounded-lg bg-green-50 dark:bg-gray-800 text-green-900 dark:text-green-100 hover:bg-green-100 dark:hover:bg-gray-700 font-medium text-center transition-colors border border-green-100 dark:border-gray-700">{book.name}</a></li>
+                    <li><a href={`/es/${book.abbrev}/`} class="block p-3 rounded-lg bg-green-50 dark:bg-gray-800 text-green-900 dark:text-green-100 hover:bg-green-100 dark:hover:bg-gray-700 text-center border border-green-100 dark:border-gray-700">{book.name}</a></li>
                 ))}
             </ul>
         </div>
@@ -175,21 +192,15 @@ const siteUrl = Astro.url.origin;
         {
             const btnEn = document.getElementById('card-btn-en');
             const btnEs = document.getElementById('card-btn-es');
-            
-            // Verse Elements
             const textEn = document.getElementById('text-en');
             const textEs = document.getElementById('text-es');
             const imgEn = document.getElementById('votd-img-en');
             const imgEs = document.getElementById('votd-img-es');
-
-            // Global Language Elements
             const langEnElements = document.querySelectorAll('.lang-en');
             const langEsElements = document.querySelectorAll('.lang-es');
 
-            // Function to Update UI
             function updateUI(lang) {
                 if (lang === 'en') {
-                    // Update Verse Card
                     textEn.classList.remove('hidden');
                     textEs.classList.add('hidden');
                     imgEn.classList.remove('opacity-0');
@@ -197,17 +208,14 @@ const siteUrl = Astro.url.origin;
                     imgEs.classList.remove('opacity-100');
                     imgEs.classList.add('opacity-0');
 
-                    // Update Card Buttons
                     btnEn.classList.add('bg-white', 'text-black', 'shadow-sm');
                     btnEn.classList.remove('text-white', 'hover:bg-white/20');
                     btnEs.classList.remove('bg-white', 'text-black', 'shadow-sm');
                     btnEs.classList.add('text-white', 'hover:bg-white/20');
 
-                    // Update Whole Page (Bible Lists)
                     langEnElements.forEach(el => el.classList.remove('hidden'));
                     langEsElements.forEach(el => el.classList.add('hidden'));
                 } else {
-                    // Update Verse Card
                     textEs.classList.remove('hidden');
                     textEn.classList.add('hidden');
                     imgEs.classList.remove('opacity-0');
@@ -215,24 +223,20 @@ const siteUrl = Astro.url.origin;
                     imgEn.classList.remove('opacity-100');
                     imgEn.classList.add('opacity-0');
 
-                    // Update Card Buttons
                     btnEs.classList.add('bg-white', 'text-black', 'shadow-sm');
                     btnEs.classList.remove('text-white', 'hover:bg-white/20');
                     btnEn.classList.remove('bg-white', 'text-black', 'shadow-sm');
                     btnEn.classList.add('text-white', 'hover:bg-white/20');
 
-                    // Update Whole Page (Bible Lists)
                     langEsElements.forEach(el => el.classList.remove('hidden'));
                     langEnElements.forEach(el => el.classList.add('hidden'));
                 }
             }
 
-            // 1. Listen for Global Header Change (From BaseLayout)
             window.addEventListener('languageChanged', (e) => {
                 updateUI(e.detail);
             });
 
-            // 2. Handle Card Button Clicks -> This triggers Global Change
             btnEn.addEventListener('click', () => {
                 window.dispatchEvent(new CustomEvent('languageChanged', { detail: 'en' }));
                 localStorage.setItem('lang', 'en');
@@ -243,7 +247,6 @@ const siteUrl = Astro.url.origin;
                 localStorage.setItem('lang', 'es');
             });
 
-            // 3. Initial Load
             const savedLang = localStorage.getItem('lang') || 'en';
             updateUI(savedLang);
         }
