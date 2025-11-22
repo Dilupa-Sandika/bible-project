@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import familyItems from '../../data/family_db.json';
+
+const title = "Kids & Family Resources";
+
+// Filter items by Type
+const books = familyItems.filter(i => i.type === 'book');
+const cards = familyItems.filter(i => i.type === 'card');
+const backdrops = familyItems.filter(i => i.type === 'backdrop');
+---
+
+<BaseLayout title={title}>
+
+    <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-4">
+            Kids & <span class="text-blue-600 dark:text-blue-400">Family</span>
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400">
+            Creative resources to help your family grow in faith.
+        </p>
+    </div>
+
+    <section class="mb-20">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">📚 Coloring & Story Books</h2>
+            <div class="flex gap-2">
+                <button class="filter-btn active px-4 py-1 rounded-full bg-blue-600 text-white text-sm font-bold" data-filter="all" data-section="book">All</button>
+                <button class="filter-btn px-4 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-bold" data-filter="kids" data-section="book">Kids</button>
+                <button class="filter-btn px-4 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-bold" data-filter="adults" data-section="book">Adults</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="book-grid">
+            {books.map(item => (
+                <a href={`/family/${item.id}/`} class="book-item group block bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-xl transition-all" data-tag={item.filter_tag}>
+                    <div class="h-64 overflow-hidden rounded-t-2xl relative">
+                        <img src={item.gallery[0]} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <span class="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded font-bold uppercase">{item.filter_tag}</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 mb-1 truncate">{item.title}</h3>
+                        <p class="text-sm text-blue-600 font-bold">View Details &rarr;</p>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </section>
+
+    <section class="mb-20">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">💌 Greeting Cards</h2>
+            <div class="flex gap-2">
+                <button class="filter-btn active px-4 py-1 rounded-full bg-blue-600 text-white text-sm font-bold" data-filter="all" data-section="card">All</button>
+                <button class="filter-btn px-4 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-bold" data-filter="birthday" data-section="card">Birthday</button>
+                <button class="filter-btn px-4 py-1 rounded-full bg-gray-200 text-gray-600 text-sm font-bold" data-filter="baptism" data-section="card">Baptism</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="card-grid">
+            {cards.map(item => (
+                <a href={`/family/${item.id}/`} class="card-item group block bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-xl transition-all" data-tag={item.filter_tag}>
+                    <div class="h-48 overflow-hidden rounded-t-2xl relative">
+                        <img src={item.gallery[0]} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 dark:text-gray-100 mb-1 truncate">{item.title}</h3>
+                        <p class="text-sm text-blue-600 font-bold">View Details &rarr;</p>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </section>
+
+    <section class="mb-20">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-8">🎉 Party Backdrops</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {backdrops.map(item => (
+                <a href={`/family/${item.id}/`} class="group block relative rounded-2xl overflow-hidden h-64 shadow-lg">
+                    <img src={item.gallery[0]} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-bold text-white">{item.title}</h3>
+                        <p class="text-gray-300 text-sm">Premium Design • View on Etsy</p>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </section>
+
+    <script is:inline>
+        const buttons = document.querySelectorAll('.filter-btn');
+        
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+                const section = btn.dataset.section; // 'book' or 'card'
+                const container = document.getElementById(`${section}-grid`);
+                const items = container.querySelectorAll(`.${section}-item`);
+                
+                // Update Button Styles
+                const siblings = btn.parentElement.children;
+                for (let sib of siblings) {
+                    sib.classList.remove('bg-blue-600', 'text-white');
+                    sib.classList.add('bg-gray-200', 'text-gray-600');
+                }
+                btn.classList.remove('bg-gray-200', 'text-gray-600');
+                btn.classList.add('bg-blue-600', 'text-white');
+
+                // Show/Hide Logic
+                items.forEach(item => {
+                    if (filter === 'all' || item.dataset.tag === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+
+</BaseLayout>

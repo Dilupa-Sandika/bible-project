@@ -1,0 +1,29 @@
+[
+  {
+    "id": "coloring-book-1",
+    "title": "Bible Heroes Coloring Book",
+    "category": "Coloring Book",
+    "description": "A fun printable coloring book featuring David, Moses, and Daniel. Perfect for Sunday school.",
+    "image": "/images/downloads/coloring-book-cover.jpg",
+    "file_link": "/downloads/files/bible-heroes.pdf",
+    "is_premium": false
+  },
+  {
+    "id": "baptism-card-1",
+    "title": "Elegant Baptism Wish Card",
+    "category": "Cards",
+    "description": "Beautifully designed baptism wish card. Ready to print.",
+    "image": "/images/downloads/baptism-card.jpg",
+    "file_link": "/downloads/files/baptism-card.pdf",
+    "is_premium": false
+  },
+  {
+    "id": "backdrop-noah",
+    "title": "Noah's Ark Party Backdrop",
+    "category": "Backdrops",
+    "description": "High-resolution backdrop design for kids' parties. (Etsy Link)",
+    "image": "/images/downloads/noah-backdrop.jpg",
+    "file_link": "https://www.etsy.com/your-shop-link",
+    "is_premium": true
+  }
+]
