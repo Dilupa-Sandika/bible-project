@@ -2,13 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = "Support ScriptureHub";
-const description = "Help us keep ScriptureHub free and accessible to everyone. Donate as little as $1.";
+const description = "Help us spread the Word of God. Your support keeps ScriptureHub free and accessible to everyone.";
 
-// ඔබේ Payment Links මෙතනට දාන්න
+// Payment Links (ඔයාගේ Real Links මෙතනට දාන්න)
 const links = {
-    monthly_1: "https://buy.stripe.com/your-1-dollar-link", 
-    one_time_any: "https://www.paypal.com/donate/?hosted_button_id=YOUR_ID",
-    coffee: "https://www.buymeacoffee.com/yourname"
+    monthly_1: "#", 
+    one_time_any: "#",
+    coffee: "#"
 };
 ---
 
@@ -17,38 +17,67 @@ const links = {
     <div class="max-w-4xl mx-auto">
         
         <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-4">
-                Help Us Spread the <span class="text-blue-600 dark:text-blue-400">Word</span>
-            </h1>
-            <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                ScriptureHub is a free resource built to share the wisdom of the Bible. Your support helps us keep the servers running.
-            </p>
+            <div class="lang-en">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-4">
+                    Help Us Spread the <span class="text-blue-600 dark:text-blue-400">Word</span>
+                </h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    ScriptureHub is a free resource built to share the wisdom of the Bible. Your support helps us keep the servers running.
+                </p>
+            </div>
+            <div class="lang-es hidden">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-4">
+                    Ayúdanos a Difundir la <span class="text-green-600 dark:text-green-400">Palabra</span>
+                </h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    ScriptureHub es un recurso gratuito. Tu apoyo nos ayuda a mantener los servidores funcionando.
+                </p>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             
             <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-                    Become a Supporter
-                </h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Join our mission for just $1.</p>
+                
+                <div class="lang-en">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">Support Us</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Even $1 makes a huge difference!</p>
+                </div>
+                <div class="lang-es hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">Apóyanos</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">¡Incluso $1 hace una gran diferencia!</p>
+                </div>
 
-                <a href={links.monthly_1} target="_blank" class="block w-full p-4 mb-6 rounded-xl border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold shadow-sm hover:scale-105 transition-transform flex justify-between items-center">
-                    <span>Monthly Support</span>
-                    <span class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full">$1 / mo</span>
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <button class="p-3 rounded-xl border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold shadow-sm hover:scale-105 transition-transform">$1</button>
+                    <button class="p-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-500 hover:bg-blue-50 transition-all font-bold text-gray-700 dark:text-gray-300">$3</button>
+                    <button class="p-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-500 hover:bg-blue-50 transition-all font-bold text-gray-700 dark:text-gray-300">$5</button>
+                </div>
+
+                <div class="relative mb-6">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                    <input type="number" placeholder="Other Amount" class="w-full pl-8 pr-4 py-3 rounded-xl border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" />
+                </div>
+
+                <a href={links.monthly_1} target="_blank" class="block w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg shadow-lg transform hover:-translate-y-1 transition-all mb-6">
+                    <span class="lang-en">Donate Monthly ($1)</span>
+                    <span class="lang-es hidden">Donar Mensualmente ($1)</span>
                 </a>
 
                 <div class="relative flex py-2 items-center mb-6">
                     <div class="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
-                    <span class="flex-shrink-0 mx-4 text-gray-400 text-xs uppercase font-bold">One-Time Gifts</span>
+                    <span class="flex-shrink-0 mx-4 text-gray-400 text-xs uppercase font-bold lang-en">Or One-Time</span>
+                    <span class="flex-shrink-0 mx-4 text-gray-400 text-xs uppercase font-bold lang-es hidden">O Una Vez</span>
                     <div class="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <a href={links.coffee} target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black font-bold shadow-md transition-all">
-                        ☕ Coffee ($3)
+                    <a href={links.coffee} target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black font-bold shadow-md transition-all transform hover:-translate-y-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        <span class="lang-en">Coffee ($3)</span>
+                        <span class="lang-es hidden">Café ($3)</span>
                     </a>
-                    <a href={links.one_time_any} target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold transition-all">
+                    <a href={links.one_time_any} target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold transition-all transform hover:-translate-y-1">
                         PayPal
                     </a>
                 </div>
@@ -57,26 +86,60 @@ const links = {
             <div class="space-y-6">
                 <div class="bg-blue-50 dark:bg-gray-700/50 p-6 rounded-2xl border border-blue-100 dark:border-gray-600">
                     <h3 class="font-bold text-lg text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
-                        ❤️ Why $1 Matters?
+                        ❤️ <span class="lang-en">Why $1 Matters?</span><span class="lang-es hidden">¿Por qué importa?</span>
                     </h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-                        It might seem small, but if 100 people give $1, our server costs are covered forever. It's a small amount for you, but a huge blessing for us.
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed lang-en">
+                        We want to keep God's word free from distracting ads. If just 100 people give $1, our server costs are covered forever.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed lang-es hidden">
+                        Queremos mantener la palabra de Dios libre de anuncios. Si solo 100 personas dan $1, nuestros costos están cubiertos.
                     </p>
                 </div>
 
                 <div class="bg-green-50 dark:bg-green-900/20 p-6 rounded-2xl border border-green-100 dark:border-green-800">
                     <h3 class="font-bold text-lg text-green-800 dark:text-green-300 mb-2">
-                        🎁 Supporter Perks
+                        🎁 <span class="lang-en">Supporter Perks</span><span class="lang-es hidden">Beneficios</span>
                     </h3>
                     <ul class="text-gray-600 dark:text-gray-300 text-sm text-left space-y-3">
-                        <li class="flex gap-2">✅ <span class="flex-1">Early access to new Coloring Books</span></li>
-                        <li class="flex gap-2">✅ <span class="flex-1">Direct email support from our team</span></li>
-                        <li class="flex gap-2">✅ <span class="flex-1">Your name in our "Thank You" list</span></li>
+                        <li class="flex gap-2">✅ <span class="flex-1 lang-en">Early access to new Coloring Books</span><span class="flex-1 lang-es hidden">Acceso anticipado a libros</span></li>
+                        <li class="flex gap-2">✅ <span class="flex-1 lang-en">Direct email support</span><span class="flex-1 lang-es hidden">Soporte directo</span></li>
+                        <li class="flex gap-2">✅ <span class="flex-1 lang-en">Your name in our "Thank You" list</span><span class="flex-1 lang-es hidden">Tu nombre en la lista</span></li>
                     </ul>
+                </div>
+                
+                <div class="bg-purple-50 dark:bg-purple-900/20 p-6 rounded-2xl border border-purple-100 dark:border-purple-800">
+                    <h3 class="font-bold text-lg text-purple-800 dark:text-purple-300 mb-2">
+                        🌍 <span class="lang-en">Create More</span><span class="lang-es hidden">Crear Más</span>
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed lang-en">
+                        Your support allows us to translate resources into more languages and create new study guides.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed lang-es hidden">
+                        Tu apoyo nos permite traducir recursos a más idiomas y crear nuevas guías de estudio.
+                    </p>
                 </div>
             </div>
 
         </div>
     </div>
+
+    <script is:inline>
+        {
+            function updateDonateLang(lang) {
+                const enElements = document.querySelectorAll('.lang-en');
+                const esElements = document.querySelectorAll('.lang-es');
+                if (lang === 'es') {
+                    enElements.forEach(el => el.classList.add('hidden'));
+                    esElements.forEach(el => el.classList.remove('hidden'));
+                } else {
+                    esElements.forEach(el => el.classList.add('hidden'));
+                    enElements.forEach(el => el.classList.remove('hidden'));
+                }
+            }
+            window.addEventListener('languageChanged', (e) => updateDonateLang(e.detail));
+            const savedLang = localStorage.getItem('lang') || 'en';
+            updateDonateLang(savedLang);
+        }
+    </script>
 
 </BaseLayout>

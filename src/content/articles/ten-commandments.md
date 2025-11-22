@@ -1,25 +1,29 @@
 ---
-title: "The Ten Commandments: God's Law for Life"
-description: "Read and understand the Ten Commandments given to Moses. A guide to living a righteous life according to the Bible (Exodus 20)."
+title_en: "The Ten Commandments: God's Law for Life"
+title_es: "Los Diez Mandamientos: La Ley de Dios"
+description_en: "Read and understand the Ten Commandments given to Moses."
+description_es: "Lea y comprenda los Diez Mandamientos dados a Moisés."
 pubDate: 2025-11-21
 image: "/images/verses/ten-commandments-cover.png"
-tags: ["bible study", "moses", "law", "exodus"]
+tags: ["bible study", "moses", "law"]
 ---
 
-The Ten Commandments are a set of biblical principles relating to ethics and worship that play a fundamental role in Judaism and Christianity.
+<div class="lang-en">
+<p>The Ten Commandments are a set of biblical principles relating to ethics and worship.</p>
+<h3>The List (Exodus 20)</h3>
+<ol>
+<li>You shall have no other gods before Me.</li>
+<li>You shall not make idols.</li>
+<li>You shall not take the name of the LORD your God in vain.</li>
+</ol>
+</div>
 
-## The List (Exodus 20)
-
-1. **You shall have no other gods before Me.**
-2. **You shall not make idols.**
-3. **You shall not take the name of the LORD your God in vain.**
-4. **Remember the Sabbath day, to keep it holy.**
-5. **Honor your father and your mother.**
-6. **You shall not murder.**
-7. **You shall not commit adultery.**
-8. **You shall not steal.**
-9. **You shall not bear false witness against your neighbor.**
-10. **You shall not covet.**
-
-### Why are they important?
-These laws were given to guide us towards a life of holiness and love towards God and our neighbors.
+<div class="lang-es hidden">
+<p>Los Diez Mandamientos son un conjunto de principios bíblicos relacionados con la ética y la adoración.</p>
+<h3>La Lista (Éxodo 20)</h3>
+<ol>
+<li>No tendrás dioses ajenos delante de mí.</li>
+<li>No te harás imagen.</li>
+<li>No tomarás el nombre de Jehová tu Dios en vano.</li>
+</ol>
+</div>

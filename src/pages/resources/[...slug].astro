@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-// 1. ඔක්කොම Articles ටික අරගෙන පාරවල් (Paths) හදනවා
 export async function getStaticPaths() {
   const blogEntries = await getCollection('articles');
   return blogEntries.map(entry => ({
@@ -10,31 +9,23 @@ export async function getStaticPaths() {
   }));
 }
 
-// 2. අදාළ Article එකේ Data ගන්නවා
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 
-// 3. Date Format කරනවා
 const formattedDate = entry.data.pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+  year: 'numeric', month: 'long', day: 'numeric',
 });
 ---
 
 <BaseLayout 
-    title={entry.data.title} 
-    description={entry.data.description}
+    title={entry.data.title_en} 
+    description={entry.data.description_en}
     image={entry.data.image}
 >
     <article class="max-w-3xl mx-auto">
         
         {entry.data.image && (
-            <img 
-                src={entry.data.image} 
-                alt={entry.data.title} 
-                class="w-full h-64 md:h-96 object-cover rounded-3xl shadow-lg mb-8"
-            />
+            <img src={entry.data.image} alt={entry.data.title_en} class="w-full h-64 md:h-96 object-cover rounded-3xl shadow-lg mb-8" />
         )}
 
         <div class="text-center mb-10">
@@ -45,9 +36,14 @@ const formattedDate = entry.data.pubDate.toLocaleDateString('en-US', {
                     </span>
                 ))}
             </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-4 leading-tight">
-                {entry.data.title}
+            
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-4 leading-tight lang-en">
+                {entry.data.title_en}
             </h1>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-4 leading-tight lang-es hidden">
+                {entry.data.title_es}
+            </h1>
+
             <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">
                 By {entry.data.author} • {formattedDate}
             </p>
@@ -58,10 +54,39 @@ const formattedDate = entry.data.pubDate.toLocaleDateString('en-US', {
         </div>
 
         <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
-            <a href="/resources/" class="inline-flex items-center text-blue-600 dark:text-blue-400 font-bold hover:underline">
+            <a href="/resources/" class="inline-flex items-center text-blue-600 dark:text-blue-400 font-bold hover:underline lang-en">
                 &larr; Back to Resources
+            </a>
+            <a href="/resources/" class="inline-flex items-center text-green-600 dark:text-green-400 font-bold hover:underline lang-es hidden">
+                &larr; Volver a Recursos
             </a>
         </div>
 
     </article>
+
+    <script is:inline>
+        {
+            function updateArticleLang(lang) {
+                const enElements = document.querySelectorAll('.lang-en');
+                const esElements = document.querySelectorAll('.lang-es');
+
+                if (lang === 'es') {
+                    enElements.forEach(el => el.classList.add('hidden'));
+                    esElements.forEach(el => el.classList.remove('hidden'));
+                } else {
+                    esElements.forEach(el => el.classList.add('hidden'));
+                    enElements.forEach(el => el.classList.remove('hidden'));
+                }
+            }
+
+            // Listen for global event
+            window.addEventListener('languageChanged', (e) => {
+                updateArticleLang(e.detail);
+            });
+
+            // Initial Load
+            const currentLang = localStorage.getItem('lang') || 'en';
+            updateArticleLang(currentLang);
+        }
+    </script>
 </BaseLayout>
