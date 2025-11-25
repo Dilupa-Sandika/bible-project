@@ -1,84 +1,142 @@
 ---
-// 1. Layout එක import කරනවා
+// 1. නිවැරදි Import Paths (../ 3ක් පමණයි)
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import rvrBible from '../../../data/es_rvr.json';
+import kjvBible from '../../../data/en_kjv.json';
+
+// Spanish Book Name Mapping
+const esBookNames = {
+  "Genesis": "Génesis", "Exodus": "Éxodo", "Leviticus": "Levítico", "Numbers": "Números", "Deuteronomy": "Deuteronomio",
+  "Joshua": "Josué", "Judges": "Jueces", "Ruth": "Rut", "1 Samuel": "1 Samuel", "2 Samuel": "2 Samuel",
+  "1 Kings": "1 Reyes", "2 Kings": "2 Reyes", "1 Chronicles": "1 Crónicas", "2 Chronicles": "2 Crónicas",
+  "Ezra": "Esdras", "Nehemiah": "Nehemías", "Esther": "Ester", "Job": "Job", "Psalms": "Salmos",
+  "Proverbs": "Proverbios", "Ecclesiastes": "Eclesiastés", "Song of Solomon": "Cantares", "Isaiah": "Isaías",
+  "Jeremiah": "Jeremías", "Lamentations": "Lamentaciones", "Ezekiel": "Ezequiel", "Daniel": "Daniel",
+  "Hosea": "Oseas", "Joel": "Joel", "Amos": "Amós", "Obadiah": "Abdías", "Jonah": "Jonás",
+  "Micah": "Miqueas", "Nahum": "Nahúm", "Habakkuk": "Habacuc", "Zephaniah": "Sofonías", "Haggai": "Hageo",
+  "Zechariah": "Zacarías", "Malachi": "Malaquías", "Matthew": "Mateo", "Mark": "Marcos", "Luke": "Lucas",
+  "John": "Juan", "Acts": "Hechos", "Romans": "Romanos", "1 Corinthians": "1 Corintios", "2 Corinthians": "2 Corintios",
+  "Galatians": "Gálatas", "Ephesians": "Efesios", "Philippians": "Filipenses", "Colossians": "Colosenses",
+  "1 Thessalonians": "1 Tesalonicenses", "2 Thessalonians": "2 Tesalonicenses", "1 Timothy": "1 Timoteo",
+  "2 Timothy": "2 Timoteo", "Titus": "Tito", "Philemon": "Filemón", "Hebrews": "Hebreos", "James": "Santiago",
+  "1 Peter": "1 Pedro", "2 Peter": "2 Pedro", "1 John": "1 Juan", "2 John": "2 Juan", "3 John": "3 Juan",
+  "Jude": "Judas", "Revelation": "Apocalipsis"
+};
 
 export async function getStaticPaths() {
   const paths = [];
   rvrBible.forEach(book => {
-    book.chapters.forEach((chapter, index) => {
-      const chapterNumber = index + 1;
+    book.chapters.forEach((_, index) => {
       paths.push({
-        params: { book: book.abbrev, chapter: chapterNumber.toString() }
+        params: { book: book.abbrev, chapter: (index + 1).toString() },
+        props: { book, chapter: index + 1 }
       });
     });
   });
   return paths;
 }
 
-const { book: bookAbbrev, chapter: chapterNumberStr } = Astro.params;
-const chapterNumber = parseInt(chapterNumberStr); 
-const currentBook = rvrBible.find(b => b.abbrev === bookAbbrev);
-const currentChapterVerses = currentBook.chapters[chapterNumber - 1];
+const { book, chapter } = Astro.props;
+const chapterData = book.chapters[chapter - 1];
+const spanishBookName = esBookNames[book.name] || book.name;
 
-const totalChapters = currentBook.chapters.length;
-const prevChapter = chapterNumber > 1 ? chapterNumber - 1 : null;
-const nextChapter = chapterNumber < totalChapters ? chapterNumber + 1 : null;
+// --- SPANISH AUDIO LOGIC (Format: 01_Gen001.mp3) ---
 
-const bookNumber = rvrBible.indexOf(currentBook) + 1;
-const audioSrc = `https://www.wordproject.org/bibles/app/audio/4/${bookNumber}/${chapterNumber}.mp3`;
+// 1. පොතේ අංකය (Book Index)
+const bookIndex = rvrBible.findIndex(b => b.abbrev === book.abbrev);
+const bookNumPad = (bookIndex + 1).toString().padStart(2, '0'); // 01
 
-// 2. Page Title එක Layout එකට pass කරනවා
-const title = `${currentBook.name} ${chapterNumber}`;
+// 2. පොතේ නම (English Name වලින් මුල් අකුරු 3)
+const engName = kjvBible[bookIndex].name;
+const bookCode = engName.replace(/\s+/g, '').substring(0, 3); // Gen
+
+// 3. පරිච්ඡේද අංකය (ඉලක්කම් 3කට: 001)
+const chapterPad = chapter.toString().padStart(3, '0');
+
+// 4. ෆයිල් නම: 01_Gen001.mp3
+const fileName = `${bookNumPad}_${bookCode}${chapterPad}.mp3`;
+
+// 5. Folder Name (rvr_ot / rvr_nt)
+const folderName = bookIndex < 39 ? "rvr_ot" : "rvr_nt";
+
+// 6. Final Link
+const audioSrc = `/audio/${folderName}/${fileName}`;
+
+// Navigation Logic
+const totalChapters = book.chapters.length;
+const prevChapter = chapter > 1 ? chapter - 1 : null;
+const nextChapter = chapter < totalChapters ? chapter + 1 : null;
 ---
-<BaseLayout title={title}>
 
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        <a href="/" class="text-blue-600 dark:text-blue-400 hover:underline">Home</a>
-        <span class="mx-2">&gt;</span>
-        <a href={`/es/${bookAbbrev}/`} class="text-blue-600 dark:text-blue-400 hover:underline">{currentBook.name}</a>
-        <span class="mx-2">&gt;</span>
-        <span class="font-semibold">Capítulo {chapterNumber}</span>
-    </div>
-    
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-        {currentBook.name} - Capítulo {chapterNumber}
-    </h1>
+<BaseLayout title={`${spanishBookName} ${chapter} - Biblia RVR`}>
 
-    <div class="my-6 border-t border-b border-gray-200 dark:border-gray-700 py-4">
-        <audio controls class="w-full">
-            <source src={audioSrc} type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+    <div class="mb-6 text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+        <a href="/" class="hover:text-green-600 hover:underline font-medium">Biblia</a>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        <span class="font-bold text-gray-800 dark:text-gray-200">{spanishBookName}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        <span class="text-green-600 dark:text-green-400 font-semibold">Capítulo {chapter}</span>
     </div>
 
-    <ol class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed space-y-4">
-        {currentChapterVerses.map((verseText, index) => {
-            const verseNumber = index + 1;
-            return (
-                <li class="flex">
-                    <sup class="font-bold text-blue-600 dark:text-blue-400 mr-2 shrink-0">{verseNumber}</sup>
-                    <span>{verseText}</span>
-                </li>
-            )
-        })}
-    </ol>
-
-    <nav class="flex flex-col sm:flex-row justify-between border-t border-gray-200 dark:border-gray-700 pt-6 mt-8 gap-4">
-        {prevChapter ? (
-            <a href={`/es/${bookAbbrev}/${prevChapter}/`} class="text-center px-5 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 font-medium transition-colors">
-                &larr; Capítulo {prevChapter}
-            </a>
-        ) : (
-            <span class="text-center px-5 py-3 rounded-lg bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed">&larr; Anterior</span>
-        )}
+    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 md:p-10 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700">
         
-        {nextChapter ? (
-            <a href={`/es/${bookAbbrev}/${nextChapter}/`} class="text-center px-5 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 font-medium transition-colors">
-                Capítulo {nextChapter} &rarr;
-            </a>
-        ) : (
-            <span class="text-center px-5 py-3 rounded-lg bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed">Siguiente &rarr;</span>
-        )}
-    </nav>
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
+                {spanishBookName} <span class="text-green-600">{chapter}</span>
+            </h1>
+            <div class="h-1 w-20 bg-green-600 mx-auto rounded-full mb-4"></div>
+            <p class="text-gray-500 dark:text-gray-400 uppercase tracking-widest text-xs font-bold">
+                Reina-Valera 1960
+            </p>
+        </div>
+
+        <div class="mb-10 p-1 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl shadow-md">
+            <div class="bg-white dark:bg-gray-900 rounded-xl p-4 flex flex-col md:flex-row items-center gap-4">
+                <div class="flex items-center gap-3 text-green-800 dark:text-green-300 font-bold text-sm whitespace-nowrap">
+                    <div class="p-2 bg-green-100 dark:bg-green-900/30 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
+                    </div>
+                    Escuchar Capítulo
+                </div>
+                <audio controls class="w-full focus:outline-none" preload="none">
+                    <source src={audioSrc} type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            {chapterData.map((text, index) => (
+                <div class="flex gap-4 p-3 rounded-xl hover:bg-green-50 dark:hover:bg-gray-700/50 transition-colors group">
+                    <span class="text-xs font-bold text-green-600 pt-1.5 w-6 shrink-0 select-none text-right font-mono">
+                        {index + 1}
+                    </span>
+                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                        {text}
+                    </p>
+                </div>
+            ))}
+        </div>
+
+        <div class="flex justify-between items-center mt-16 pt-8 border-t border-gray-100 dark:border-gray-700">
+            {prevChapter ? (
+                <a href={`/es/${book.abbrev}/${prevChapter}/`} class="group flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-green-600 hover:text-white transition-all font-bold border border-gray-200 dark:border-gray-600 hover:border-green-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    Anterior
+                </a>
+            ) : (
+                <div></div>
+            )}
+
+            {nextChapter ? (
+                <a href={`/es/${book.abbrev}/${nextChapter}/`} class="group flex items-center gap-2 px-6 py-3 rounded-xl bg-green-600 text-white hover:bg-green-700 transition-all font-bold shadow-lg hover:shadow-green-500/30">
+                    Siguiente
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </a>
+            ) : (
+                <div></div>
+            )}
+        </div>
+
+    </div>
 </BaseLayout>
