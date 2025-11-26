@@ -1,34 +1,58 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import votdData from '../../data/votd_data.json';
+import kjvBible from '../../data/en_kjv.json';
 
-// ... (Keep all your existing Server Side Logic / Imports the same) ...
+// --- DATE LOGIC ---
 const date = new Date();
 const currentMonth = date.getMonth() + 1;
 const currentDay = date.getDate();
 const todayId = `${currentMonth}-${currentDay}`;
+
 const monthNameEn = date.toLocaleString('en-US', { month: 'long' });
 const monthNameEs = date.toLocaleString('es-ES', { month: 'long' });
 const monthNameEsCap = monthNameEs.charAt(0).toUpperCase() + monthNameEs.slice(1);
 
+// --- FILTER DATA ---
 const monthVersesEn = votdData.en.filter(v => {
     const [m, d] = v.dateId.split('-');
     return parseInt(m) === currentMonth;
 }).sort((a, b) => parseInt(a.dateId.split('-')[1]) - parseInt(b.dateId.split('-')[1]));
 
-let todaysVerseEn = monthVersesEn.find(v => v.dateId === todayId);
-if (!todaysVerseEn) todaysVerseEn = monthVersesEn[0] || votdData.en[0];
+let todaysVerseEn = monthVersesEn.find(v => v.dateId === todayId) || monthVersesEn[0] || votdData.en[0];
 
 const monthVersesEs = votdData.es.filter(v => {
     const [m, d] = v.dateId.split('-');
     return parseInt(m) === currentMonth;
 }).sort((a, b) => parseInt(a.dateId.split('-')[1]) - parseInt(b.dateId.split('-')[1]));
 
-let todaysVerseEs = monthVersesEs.find(v => v.dateId === todayId);
-if (!todaysVerseEs) todaysVerseEs = monthVersesEs[0] || votdData.es[0];
+let todaysVerseEs = monthVersesEs.find(v => v.dateId === todayId) || monthVersesEs[0] || votdData.es[0];
 
-const heroImageEn = todaysVerseEn.image || "/images/verses/john-3-16.png";
-const heroImageEs = todaysVerseEs.image || "/images/verses/juan-3-16.png";
+// --- SMART IMAGE PATH GENERATOR ---
+function getVerseImagePath(verseData, lang) {
+    try {
+        const bookObj = kjvBible.find(b => b.abbrev === verseData.abbrev);
+        if (!bookObj) return "/images/verses/default.png";
+
+        const bookSlug = bookObj.name.toLowerCase().replace(/\s+/g, '-');
+        const refParts = verseData.ref.split(' ');
+        const chapterVerse = refParts[refParts.length - 1];
+        const numbersSlug = chapterVerse.replace(':', '-');
+
+        let filename = `${bookSlug}-${numbersSlug}`;
+
+        if (lang === 'es') {
+            filename += '-es'; 
+        }
+
+        return `/images/verses/${filename}.png`;
+    } catch (e) {
+        return "/images/verses/default.png";
+    }
+}
+
+const heroImageEn = getVerseImagePath(todaysVerseEn, 'en');
+const heroImageEs = getVerseImagePath(todaysVerseEs, 'es');
 ---
 
 <BaseLayout title={`Verses for ${monthNameEn} - ScriptureHub`}>
@@ -55,11 +79,10 @@ const heroImageEs = todaysVerseEs.image || "/images/verses/juan-3-16.png";
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto mb-12">
-        
+    <div class="max-w-4xl mx-auto mb-16">
         <div class="relative rounded-3xl overflow-hidden shadow-xl h-64 md:h-96 group bg-gray-900 mb-6">
-            <img id="hero-img-en" src={heroImageEn} class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-100" alt={todaysVerseEn.ref} />
-            <img id="hero-img-es" src={heroImageEs} class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0" alt={todaysVerseEs.ref} />
+            <img id="hero-img-en" src={heroImageEn} class="absolute inset-0 w-full h-full object-contain bg-black transition-opacity duration-500 opacity-100" alt={todaysVerseEn.ref} />
+            <img id="hero-img-es" src={heroImageEs} class="absolute inset-0 w-full h-full object-contain bg-black transition-opacity duration-500 opacity-0" alt={todaysVerseEs.ref} />
             
             <div class="absolute top-4 right-4 bg-black/40 backdrop-blur-md p-1 rounded-lg border border-white/20 flex gap-1 z-20">
                 <button id="btn-en" class="px-3 py-1 rounded text-xs font-bold bg-white text-black shadow-sm transition-all">EN</button>
@@ -68,13 +91,15 @@ const heroImageEs = todaysVerseEs.image || "/images/verses/juan-3-16.png";
         </div>
 
         <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700 text-center relative">
+            
             <div id="hero-text-en" class="transition-opacity duration-300 block">
-                <span class="text-blue-600 font-bold text-xs uppercase tracking-wider mb-2 block">Today's Verse</span>
+                <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider inline-block">Today's Verse</span>
                 <blockquote class="text-xl md:text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-4">"{todaysVerseEn.text}"</blockquote>
                 <a href={`/en/${todaysVerseEn.abbrev}/${todaysVerseEn.chapter}/`} class="text-lg font-bold text-blue-600 dark:text-blue-400 hover:underline">- {todaysVerseEn.ref} &rarr;</a>
             </div>
+
             <div id="hero-text-es" class="transition-opacity duration-300 hidden">
-                <span class="text-green-600 font-bold text-xs uppercase tracking-wider mb-2 block">Versículo de Hoy</span>
+                <span class="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider inline-block">Versículo de Hoy</span>
                 <blockquote class="text-xl md:text-2xl font-serif text-gray-800 dark:text-gray-100 leading-relaxed mb-4">"{todaysVerseEs.text}"</blockquote>
                 <a href={`/es/${todaysVerseEs.abbrev}/${todaysVerseEs.chapter}/`} class="text-lg font-bold text-green-600 dark:text-green-400 hover:underline">- {todaysVerseEs.ref} &rarr;</a>
             </div>
@@ -82,43 +107,69 @@ const heroImageEs = todaysVerseEs.image || "/images/verses/juan-3-16.png";
     </div>
 
     <div class="max-w-3xl mx-auto space-y-4">
+        
         <div id="list-en">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 border-b dark:border-gray-700 pb-2">Full List for {monthNameEn}</h2>
             {monthVersesEn.map(verse => {
                 const isToday = verse.dateId === todayId;
                 const verseLink = `/en/${verse.abbrev}/${verse.chapter}/`;
                 const dayNum = verse.dateId.split('-')[1];
+
                 return (
                     <div class={`flex flex-col md:flex-row gap-4 p-6 rounded-2xl border transition-all mb-4 ${isToday ? 'bg-blue-50 border-blue-500 dark:bg-blue-900/20 dark:border-blue-500 shadow-md transform scale-[1.02]' : 'bg-white border-gray-100 dark:bg-gray-800 dark:border-gray-700 hover:border-blue-300'}`}>
-                        <div class="flex-shrink-0"><div class={`w-16 h-16 rounded-xl flex flex-col items-center justify-center font-bold ${isToday ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}><span class="text-xs uppercase">Day</span><span class="text-2xl">{dayNum}</span></div></div>
-                        <div class="flex-grow"><p class="text-lg text-gray-800 dark:text-gray-200 font-serif mb-2">"{verse.text}"</p><div class="flex justify-between items-center"><a href={verseLink} class="text-blue-600 dark:text-blue-400 font-bold hover:underline text-sm">{verse.ref}</a>{isToday && <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Today</span>}</div></div>
+                        <div class="flex-shrink-0">
+                            <div class={`w-16 h-16 rounded-xl flex flex-col items-center justify-center font-bold ${isToday ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
+                                <span class="text-xs uppercase">Day</span>
+                                <span class="text-2xl">{dayNum}</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg text-gray-800 dark:text-gray-200 font-serif mb-2">"{verse.text}"</p>
+                            <div class="flex justify-between items-center">
+                                <a href={verseLink} class="text-blue-600 dark:text-blue-400 font-bold hover:underline text-sm">{verse.ref}</a>
+                                {isToday && <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Today</span>}
+                            </div>
+                        </div>
                     </div>
                 )
             })}
         </div>
+
         <div id="list-es" class="hidden">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 border-b dark:border-gray-700 pb-2">Lista Completa de {monthNameEsCap}</h2>
             {monthVersesEs.map(verse => {
                 const isToday = verse.dateId === todayId;
                 const verseLink = `/es/${verse.abbrev}/${verse.chapter}/`;
                 const dayNum = verse.dateId.split('-')[1];
+
                 return (
                     <div class={`flex flex-col md:flex-row gap-4 p-6 rounded-2xl border transition-all mb-4 ${isToday ? 'bg-green-50 border-green-500 dark:bg-green-900/20 dark:border-green-500 shadow-md transform scale-[1.02]' : 'bg-white border-gray-100 dark:bg-gray-800 dark:border-gray-700 hover:border-green-300'}`}>
-                        <div class="flex-shrink-0"><div class={`w-16 h-16 rounded-xl flex flex-col items-center justify-center font-bold ${isToday ? 'bg-green-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}><span class="text-xs uppercase">Día</span><span class="text-2xl">{dayNum}</span></div></div>
-                        <div class="flex-grow"><p class="text-lg text-gray-800 dark:text-gray-200 font-serif mb-2">"{verse.text}"</p><div class="flex justify-between items-center"><a href={verseLink} class="text-green-600 dark:text-green-400 font-bold hover:underline text-sm">{verse.ref}</a>{isToday && <span class="text-xs font-bold text-green-600 uppercase tracking-wider">Hoy</span>}</div></div>
+                        <div class="flex-shrink-0">
+                            <div class={`w-16 h-16 rounded-xl flex flex-col items-center justify-center font-bold ${isToday ? 'bg-green-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
+                                <span class="text-xs uppercase">Día</span>
+                                <span class="text-2xl">{dayNum}</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-lg text-gray-800 dark:text-gray-200 font-serif mb-2">"{verse.text}"</p>
+                            <div class="flex justify-between items-center">
+                                <a href={verseLink} class="text-green-600 dark:text-green-400 font-bold hover:underline text-sm">{verse.ref}</a>
+                                {isToday && <span class="text-xs font-bold text-green-600 uppercase tracking-wider">Hoy</span>}
+                            </div>
+                        </div>
                     </div>
                 )
             })}
         </div>
+
     </div>
 
     <script is:inline>
         {
             const btnEn = document.getElementById('btn-en');
             const btnEs = document.getElementById('btn-es');
-            
-            const imgEn = document.getElementById('hero-img-en');
-            const imgEs = document.getElementById('hero-img-es');
+            const heroImgEn = document.getElementById('hero-img-en');
+            const heroImgEs = document.getElementById('hero-img-es');
             const heroTextEn = document.getElementById('hero-text-en');
             const heroTextEs = document.getElementById('hero-text-es');
             const listEn = document.getElementById('list-en');
@@ -129,50 +180,53 @@ const heroImageEs = todaysVerseEs.image || "/images/verses/juan-3-16.png";
             function updateVotdUI(lang) {
                 if (lang === 'en') {
                     // Show English
-                    imgEn.classList.remove('opacity-0'); imgEn.classList.add('opacity-100');
-                    imgEs.classList.remove('opacity-100'); imgEs.classList.add('opacity-0');
-
+                    heroImgEn.classList.remove('opacity-0'); heroImgEn.classList.add('opacity-100');
+                    heroImgEs.classList.remove('opacity-100'); heroImgEs.classList.add('opacity-0');
+                    
                     heroTextEn.classList.remove('hidden'); heroTextEs.classList.add('hidden');
                     listEn.classList.remove('hidden'); listEs.classList.add('hidden');
 
-                    // Update Buttons (Styling)
+                    // Buttons Styling
                     btnEn.classList.add('bg-white', 'text-black', 'shadow-sm');
                     btnEn.classList.remove('text-white', 'hover:bg-white/20');
                     btnEs.classList.remove('bg-white', 'text-black', 'shadow-sm');
                     btnEs.classList.add('text-white', 'hover:bg-white/20');
 
+                    // Show Global EN Elements (Header/Footer text that might be hidden)
                     langEnElements.forEach(el => el.classList.remove('hidden'));
                     langEsElements.forEach(el => el.classList.add('hidden'));
                 } else {
                     // Show Spanish
-                    imgEs.classList.remove('opacity-0'); imgEs.classList.add('opacity-100');
-                    imgEn.classList.remove('opacity-100'); imgEn.classList.add('opacity-0');
+                    heroImgEs.classList.remove('opacity-0'); heroImgEs.classList.add('opacity-100');
+                    heroImgEn.classList.remove('opacity-100'); heroImgEn.classList.add('opacity-0');
 
                     heroTextEs.classList.remove('hidden'); heroTextEn.classList.add('hidden');
                     listEs.classList.remove('hidden'); listEn.classList.add('hidden');
 
-                    // Update Buttons (Styling)
+                    // Buttons Styling
                     btnEs.classList.add('bg-white', 'text-black', 'shadow-sm');
                     btnEs.classList.remove('text-white', 'hover:bg-white/20');
                     btnEn.classList.remove('bg-white', 'text-black', 'shadow-sm');
                     btnEn.classList.add('text-white', 'hover:bg-white/20');
 
+                    // Show Global ES Elements
                     langEsElements.forEach(el => el.classList.remove('hidden'));
                     langEnElements.forEach(el => el.classList.add('hidden'));
                 }
             }
 
-            // 1. LISTEN to Global Header (So if user clicks Header EN/ES, this page updates)
+            // 1. LISTEN FOR GLOBAL CHANGES (Header Toggle)
             window.addEventListener('languageChanged', (e) => {
                 updateVotdUI(e.detail);
             });
 
-            // 2. Handle Local Clicks (ONLY Update UI, DO NOT update Global State)
-            // This creates the "Temporary View" effect
+            // 2. HANDLE LOCAL CLICKS (Update Only UI)
+            // මෙන්න වැදගත්ම වෙනස: අපි මෙතනදි global event එකක් යවන්නේ නෑ.
+            // ඒ නිසා Header එක හෝ localStorage එක වෙනස් වෙන්නේ නෑ.
             btnEn.addEventListener('click', () => updateVotdUI('en'));
             btnEs.addEventListener('click', () => updateVotdUI('es'));
 
-            // 3. Initial Load (Respect Global State)
+            // 3. INITIAL LOAD (Based on Global Setting)
             const savedLang = localStorage.getItem('lang') || 'en';
             updateVotdUI(savedLang);
         }
