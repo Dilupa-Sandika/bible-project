@@ -18,8 +18,11 @@ const {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
     <SEO title={title} description={description} image={image} />
+    
     <title>{title} - ScriptureHub</title>
+    
     <style is:inline>
         :root { font-size: 16px; }
     </style>
@@ -36,7 +39,7 @@ const {
             <div class="hidden md:flex items-center gap-5 text-sm font-bold uppercase tracking-wide">
                 <a href="/" class="nav-link hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-translate="bible">Bible</a>
                 <a href="/themes/" class="nav-link hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-translate="themes">Themes</a>
-                <a href="/votd/en/" class="nav-link hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-translate="daily">Daily Verse</a>
+                <a href="/votd/" class="nav-link hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-translate="daily">Daily Verse</a>
                 <a href="/family/" class="nav-link hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-translate="family">Kids & Family</a>
                 <a href="/resources/" class="nav-link hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-translate="resources">Resources</a>
                 <a href="/donate/" class="nav-link hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-translate="donate">Donate</a>
@@ -67,7 +70,7 @@ const {
         <div id="mobile-menu" class="hidden fixed inset-0 bg-white dark:bg-gray-900 z-40 flex flex-col items-center justify-center space-y-8 text-2xl font-bold">
             <a href="/" class="nav-link hover:text-blue-600" data-translate="bible">Bible</a>
             <a href="/themes/" class="nav-link hover:text-blue-600" data-translate="themes">Themes</a>
-            <a href="/votd/en/" class="nav-link hover:text-blue-600" data-translate="daily">Daily Verse</a>
+            <a href="/votd/" class="nav-link hover:text-blue-600" data-translate="daily">Daily Verse</a>
             <a href="/family/" class="nav-link hover:text-blue-600" data-translate="family">Kids & Family</a>
             <a href="/resources/" class="nav-link hover:text-blue-600" data-translate="resources">Resources</a>
             <a href="/donate/" class="nav-link hover:text-blue-600" data-translate="donate">Donate</a>
@@ -103,20 +106,41 @@ const {
         let currentLang = localStorage.getItem('lang') || 'en';
         
         function applyLanguage(lang) {
+            // 1. Menu Text Update
             navLinks.forEach(link => {
                 const key = link.getAttribute('data-translate');
                 if(translations[key]) link.innerText = translations[key][lang];
             });
             if(langToggle) langToggle.innerText = lang.toUpperCase();
+            
+            // 2. Save & Notify
             localStorage.setItem('lang', lang);
             window.dispatchEvent(new CustomEvent('languageChanged', { detail: lang }));
         }
 
+        // Initial Load
         applyLanguage(currentLang);
 
         if(langToggle) {
             langToggle.addEventListener('click', () => {
-                currentLang = currentLang === 'en' ? 'es' : 'en';
+                const newLang = currentLang === 'en' ? 'es' : 'en';
+                const path = window.location.pathname;
+
+                // --- BIBLE REDIRECT LOGIC (This is the FIX) ---
+                // අපි බලනවා URL එක පටන් ගන්නේ /en/ ද /es/ ද කියලා.
+                // එහෙමනම්, අපි ඒක බලෙන් අනිත් භාෂාවට හරවනවා.
+                if (path.startsWith('/en/')) {
+                    // English -> Spanish
+                    window.location.href = path.replace('/en/', '/es/');
+                    return;
+                } else if (path.startsWith('/es/')) {
+                    // Spanish -> English
+                    window.location.href = path.replace('/es/', '/en/');
+                    return;
+                }
+
+                // බයිබල් පිටුවක් නෙවෙයි නම්, නිකන්ම භාෂාව මාරු කරන්න (In-page switch)
+                currentLang = newLang;
                 applyLanguage(currentLang);
             });
         }
