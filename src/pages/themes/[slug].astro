@@ -12,50 +12,44 @@ export async function getStaticPaths() {
 
 const { topic } = Astro.props;
 
-// --- SEO ---
+// --- 1. DATA CHECK (Debug) ---
+// Verses නැත්නම් හිස් Array එකක් ගන්නවා Error එන එක නවත්වන්න
+const enVerses = topic.verses?.en || [];
+const esVerses = topic.verses?.es || [];
+const hasData = enVerses.length > 0;
+
+// --- 2. SEO LOGIC ---
 const title = `Bible Verses about ${topic.title_en} (${topic.title_es})`;
 const description = topic.seo?.en?.description || `Read Bible verses about ${topic.title_en}.`;
 const altBaseEn = topic.seo?.en?.alt_text || `Bible verses about ${topic.title_en}`;
 const altBaseEs = topic.seo?.es?.alt_text || `Versículos sobre ${topic.title_es}`;
 
-// --- MAPPING ---
-const abbrevMap = {
-    "jn": "jo", "jas": "jm", "php": "ph", "1th": "1ts", "1ti": "1tm", "jud": "jd", "sal": "ps"
-};
+// --- 3. ABBREVIATION MAP ---
+const abbrevMap = { "jn": "jo", "jas": "jm", "php": "ph", "1th": "1ts", "1ti": "1tm", "jud": "jd", "sal": "ps" };
 
-// --- SPANISH NAMES ---
-const esNames = [
-    "Génesis", "Éxodo", "Levítico", "Números", "Deuteronomio", "Josué", "Jueces", "Rut", "1 Samuel", "2 Samuel", "1 Reyes", "2 Reyes", "1 Crónicas", "2 Crónicas", "Esdras", "Nehemías", "Ester", "Job", "Salmos", "Proverbios", "Eclesiastés", "Cantares", "Isaías", "Jeremías", "Lamentaciones", "Ezequiel", "Daniel", "Oseas", "Joel", "Amós", "Abdías", "Jonás", "Miqueas", "Nahúm", "Habacuc", "Sofonías", "Hageo", "Zacarías", "Malaquías", "Mateo", "Marcos", "Lucas", "Juan", "Hechos", "Romanos", "1 Corintios", "2 Corintios", "Gálatas", "Efesios", "Filipenses", "Colosenses", "1 Tesalonicenses", "2 Tesalonicenses", "1 Timoteo", "2 Timoteo", "Tito", "Filemón", "Hebreos", "Santiago", "1 Pedro", "2 Pedro", "1 Juan", "2 Juan", "3 Juan", "Judas", "Apocalipsis"
-];
-
-// --- IMAGE PATH GENERATOR ---
+// --- 4. SMART IMAGE PATH GENERATOR ---
 function getVerseImagePath(verseData, lang) {
     try {
+        // Fix Abbreviation
         let abbrev = verseData.book || verseData.abbrev;
         abbrev = abbrev.toLowerCase();
         if (abbrevMap[abbrev]) abbrev = abbrevMap[abbrev];
 
-        let bookName = "";
-        const bookIndex = kjvBible.findIndex(b => b.abbrev === abbrev);
-        
-        if (bookIndex === -1) return "/images/verses/default.png";
+        // Get English Book Name
+        const bookObj = kjvBible.find(b => b.abbrev === abbrev);
+        if (!bookObj) return "/images/verses/default.png"; 
 
-        if (lang === 'en') {
-            bookName = kjvBible[bookIndex].name; 
-        } else {
-            bookName = esNames[bookIndex];
-        }
+        // Slugify (e.g. "1 John" -> "1-john")
+        const bookSlug = bookObj.name.toLowerCase().replace(/\s+/g, '-');
 
-        const bookSlug = bookName.toLowerCase()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .replace(/\s+/g, '-');
-
+        // Get Numbers (e.g. "4:16" -> "4-16")
         const refParts = verseData.ref.split(' ');
         const chapterVerse = refParts[refParts.length - 1];
         const numbersSlug = chapterVerse.replace(':', '-');
 
         let filename = `${bookSlug}-${numbersSlug}`; 
 
+        // Spanish Suffix
         if (lang === 'es') {
             filename += '-es'; 
         }
@@ -66,14 +60,10 @@ function getVerseImagePath(verseData, lang) {
     }
 }
 
-// --- GENERATE LISTS ---
-const enImages = topic.gallery_en?.length > 0 
-    ? topic.gallery_en 
-    : topic.verses.en.map(verse => getVerseImagePath(verse, 'en'));
-
-const esImages = topic.gallery_es?.length > 0 
-    ? topic.gallery_es 
-    : topic.verses.es.map(verse => getVerseImagePath(verse, 'es'));
+// --- 5. GENERATE IMAGE LISTS ---
+// Fallback: If no verses, show default image
+const enImages = hasData ? enVerses.map(verse => getVerseImagePath(verse, 'en')) : ["/images/verses/default.png"];
+const esImages = hasData ? esVerses.map(verse => getVerseImagePath(verse, 'es')) : ["/images/verses/default.png"];
 
 const seoImage = enImages[0];
 ---
@@ -82,65 +72,95 @@ const seoImage = enImages[0];
 
     <div class="text-center mb-8">
         <div class="lang-en">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">Bible Verses about <span class="text-blue-600 dark:text-blue-400">{topic.title_en}</span></h1>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
+                Bible Verses about <span class="text-blue-600 dark:text-blue-400">{topic.title_en}</span>
+            </h1>
         </div>
         <div class="lang-es hidden">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">Versículos sobre <span class="text-green-600 dark:text-green-400">{topic.title_es}</span></h1>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-2">
+                Versículos sobre <span class="text-green-600 dark:text-green-400">{topic.title_es}</span>
+            </h1>
         </div>
     </div>
 
-    <div class="relative rounded-3xl overflow-hidden shadow-xl mb-10 h-72 md:h-96 group bg-gray-900">
-        <div id="slider-en" class="slider-container h-full w-full absolute inset-0 transition-opacity duration-300 opacity-100 z-10">
-            <div class="flex h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth slider-track">
-                {enImages.map((img, index) => (
-                    <div class="min-w-full h-full snap-center relative slide-item flex items-center justify-center bg-black">
-                        <img src={img} class="max-h-full max-w-full object-contain" alt={`${altBaseEn} - ${index + 1}`} onerror="this.src='/images/verses/default.png';" />
+    {hasData ? (
+        <>
+            <div class="relative rounded-3xl overflow-hidden shadow-xl mb-10 h-72 md:h-96 group bg-gray-900">
+                
+                <div id="slider-en" class="slider-container h-full w-full absolute inset-0 transition-opacity duration-300 opacity-100 z-10">
+                    <div class="flex h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth slider-track">
+                        {enImages.map((img, index) => (
+                            <div class="min-w-full h-full snap-center relative slide-item flex items-center justify-center bg-black">
+                                <img 
+                                    src={img} 
+                                    class="max-h-full max-w-full object-contain" 
+                                    alt={`${altBaseEn} - ${index + 1}`} 
+                                    onerror="this.onerror=null; this.src='/images/verses/default.png';"
+                                />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <a id="dl-en" href={enImages[0]} download={`scripturehub-${topic.id}-en.png`} class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 z-20 backdrop-blur-md border border-white/20">Download</a>
-        </div>
+                    <a id="dl-en" href={enImages[0]} download={`scripturehub-${topic.id}-en.png`} class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 z-20 backdrop-blur-md border border-white/20">Download</a>
+                </div>
 
-        <div id="slider-es" class="slider-container h-full w-full absolute inset-0 transition-opacity duration-300 opacity-0 z-0 pointer-events-none">
-            <div class="flex h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth slider-track">
-                {esImages.map((img, index) => (
-                    <div class="min-w-full h-full snap-center relative slide-item flex items-center justify-center bg-black">
-                        <img src={img} class="max-h-full max-w-full object-contain" alt={`${altBaseEs} - ${index + 1}`} onerror="this.src='/images/verses/default.png';" />
+                <div id="slider-es" class="slider-container h-full w-full absolute inset-0 transition-opacity duration-300 opacity-0 z-0 pointer-events-none">
+                    <div class="flex h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth slider-track">
+                        {esImages.map((img, index) => (
+                            <div class="min-w-full h-full snap-center relative slide-item flex items-center justify-center bg-black">
+                                <img 
+                                    src={img} 
+                                    class="max-h-full max-w-full object-contain" 
+                                    alt={`${altBaseEs} - ${index + 1}`} 
+                                    onerror="this.onerror=null; this.src='/images/verses/default.png';"
+                                />
+                            </div>
+                        ))}
                     </div>
-                ))}
+                    <a id="dl-es" href={esImages[0]} download={`scripturehub-${topic.id}-es.png`} class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 z-20 backdrop-blur-md border border-white/20">Descargar</a>
+                </div>
+
+                <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white z-30 backdrop-blur-sm transition-all"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
+                <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white z-30 backdrop-blur-sm transition-all"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
             </div>
-            <a id="dl-es" href={esImages[0]} download={`scripturehub-${topic.id}-es.png`} class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 z-20 backdrop-blur-md border border-white/20">Descargar</a>
-        </div>
 
-        <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white z-30 backdrop-blur-sm transition-all"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
-        <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white z-30 backdrop-blur-sm transition-all"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
-    </div>
-
-    <div class="flex justify-center mb-10">
-        <div class="bg-white dark:bg-gray-800 p-1 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 inline-flex">
-            <button id="btn-en" class="px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md">English</button>
-            <button id="btn-es" class="px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">Español</button>
-        </div>
-    </div>
-
-    <div class="max-w-3xl mx-auto">
-        <div id="list-en" class="space-y-8 transition-opacity duration-300">
-            {topic.verses.en.map(verse => (
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
-                    <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 mb-6">"{verse.text}"</blockquote>
-                    <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4"><a href={`/en/${verse.book}/${verse.chapter}/`} class="text-blue-600 font-bold hover:underline">{verse.ref}</a><button class="copy-btn text-gray-400 hover:text-gray-600 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>Copy</button></div>
+            <div class="flex justify-center mb-10">
+                <div class="bg-white dark:bg-gray-800 p-1 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 inline-flex">
+                    <button id="btn-en" class="px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md">English</button>
+                    <button id="btn-es" class="px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">Español</button>
                 </div>
-            ))}
-        </div>
-        <div id="list-es" class="space-y-8 hidden">
-            {topic.verses.es.map(verse => (
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
-                    <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 mb-6">"{verse.text}"</blockquote>
-                    <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4"><a href={`/es/${verse.book}/${verse.chapter}/`} class="text-green-600 font-bold hover:underline">{verse.ref}</a><button class="copy-btn text-gray-400 hover:text-gray-600 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>Copiar</button></div>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div id="list-en" class="space-y-8 transition-opacity duration-300">
+                    {enVerses.map(verse => (
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
+                            <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 mb-6">"{verse.text}"</blockquote>
+                            <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4">
+                                <a href={`/en/${verse.book}/${verse.chapter}/`} class="text-blue-600 font-bold hover:underline">{verse.ref}</a>
+                                <button class="copy-btn text-gray-400 hover:text-gray-600 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>Copy</button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            ))}
+                <div id="list-es" class="space-y-8 hidden">
+                    {esVerses.map(verse => (
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
+                            <blockquote class="text-2xl font-serif text-gray-800 dark:text-gray-100 mb-6">"{verse.text}"</blockquote>
+                            <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-4">
+                                <a href={`/es/${verse.book}/${verse.chapter}/`} class="text-green-600 font-bold hover:underline">{verse.ref}</a>
+                                <button class="copy-btn text-gray-400 hover:text-gray-600 text-sm font-medium flex items-center gap-1" data-text={`${verse.text} - ${verse.ref}`}>Copiar</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </>
+    ) : (
+        <div class="text-center p-12 bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl border border-yellow-100 dark:border-yellow-800">
+            <h3 class="text-xl font-bold text-yellow-800 dark:text-yellow-200 mb-2">Coming Soon</h3>
+            <p class="text-yellow-600 dark:text-yellow-300">We are currently updating verses for this topic. Please check back later.</p>
         </div>
-    </div>
+    )}
 
     <style>.scrollbar-hide::-webkit-scrollbar { display: none; }</style>
 
@@ -161,22 +181,28 @@ const seoImage = enImages[0];
 
             function updateThemeLang(lang) {
                 if (lang === 'en') {
-                    listEn.classList.remove('hidden'); listEs.classList.add('hidden');
-                    sliderEn.classList.remove('opacity-0', 'pointer-events-none', 'z-0'); sliderEn.classList.add('opacity-100', 'z-10');
-                    sliderEs.classList.remove('opacity-100', 'z-10'); sliderEs.classList.add('opacity-0', 'pointer-events-none', 'z-0');
+                    if(listEn) listEn.classList.remove('hidden');
+                    if(listEs) listEs.classList.add('hidden');
+                    if(sliderEn) { sliderEn.classList.remove('opacity-0', 'pointer-events-none', 'z-0'); sliderEn.classList.add('opacity-100', 'z-10'); }
+                    if(sliderEs) { sliderEs.classList.remove('opacity-100', 'z-10'); sliderEs.classList.add('opacity-0', 'pointer-events-none', 'z-0'); }
                     
-                    btnEn.className = "px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md";
-                    btnEs.className = "px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all";
+                    if(btnEn) {
+                        btnEn.className = "px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md";
+                        btnEs.className = "px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all";
+                    }
                     
                     langEnElements.forEach(el => el.classList.remove('hidden'));
                     langEsElements.forEach(el => el.classList.add('hidden'));
                 } else {
-                    listEn.classList.add('hidden'); listEs.classList.remove('hidden');
-                    sliderEs.classList.remove('opacity-0', 'pointer-events-none', 'z-0'); sliderEs.classList.add('opacity-100', 'z-10');
-                    sliderEn.classList.remove('opacity-100', 'z-10'); sliderEn.classList.add('opacity-0', 'pointer-events-none', 'z-0');
+                    if(listEn) listEn.classList.add('hidden');
+                    if(listEs) listEs.classList.remove('hidden');
+                    if(sliderEs) { sliderEs.classList.remove('opacity-0', 'pointer-events-none', 'z-0'); sliderEs.classList.add('opacity-100', 'z-10'); }
+                    if(sliderEn) { sliderEn.classList.remove('opacity-100', 'z-10'); sliderEn.classList.add('opacity-0', 'pointer-events-none', 'z-0'); }
                     
-                    btnEs.className = "px-6 py-2 rounded-lg text-sm font-bold transition-all bg-green-600 text-white shadow-md";
-                    btnEn.className = "px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all";
+                    if(btnEs) {
+                        btnEs.className = "px-6 py-2 rounded-lg text-sm font-bold transition-all bg-green-600 text-white shadow-md";
+                        btnEn.className = "px-6 py-2 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all";
+                    }
 
                     langEsElements.forEach(el => el.classList.remove('hidden'));
                     langEnElements.forEach(el => el.classList.add('hidden'));
@@ -184,14 +210,14 @@ const seoImage = enImages[0];
             }
 
             window.addEventListener('languageChanged', (e) => updateThemeLang(e.detail));
-            btnEn.addEventListener('click', () => updateThemeLang('en'));
-            btnEs.addEventListener('click', () => updateThemeLang('es'));
+            if(btnEn) btnEn.addEventListener('click', () => updateThemeLang('en'));
+            if(btnEs) btnEs.addEventListener('click', () => updateThemeLang('es'));
 
             const savedLang = localStorage.getItem('lang') || 'en';
             updateThemeLang(savedLang);
 
-            // Slider & Copy Logic... (Same as before)
-             function updateDownloadLink(sliderEl, images, btnEl, lang) {
+            function updateDownloadLink(sliderEl, images, btnEl, lang) {
+                if(!sliderEl || !btnEl) return;
                 const scrollLeft = sliderEl.scrollLeft;
                 const width = sliderEl.offsetWidth;
                 const index = Math.round(scrollLeft / width);
@@ -201,10 +227,11 @@ const seoImage = enImages[0];
                 }
             }
 
-            const trackEn = sliderEn.querySelector('.slider-track');
-            const trackEs = sliderEs.querySelector('.slider-track');
-            trackEn.addEventListener('scroll', () => updateDownloadLink(trackEn, enImages, dlBtnEn, 'en'));
-            trackEs.addEventListener('scroll', () => updateDownloadLink(trackEs, esImages, dlBtnEs, 'es'));
+            const trackEn = sliderEn ? sliderEn.querySelector('.slider-track') : null;
+            const trackEs = sliderEs ? sliderEs.querySelector('.slider-track') : null;
+            
+            if(trackEn) trackEn.addEventListener('scroll', () => updateDownloadLink(trackEn, enImages, dlBtnEn, 'en'));
+            if(trackEs) trackEs.addEventListener('scroll', () => updateDownloadLink(trackEs, esImages, dlBtnEs, 'es'));
 
             if (prevBtn && nextBtn) {
                 nextBtn.addEventListener('click', () => {

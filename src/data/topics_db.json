@@ -2,49 +2,65 @@
   {
     "id": "love",
     "title_en": "Love",
-    "title_es": "Amor",
+    "title_es": "Amar",
+    "image": "/images/themes/love.jpg",
     "seo": {
       "en": {
-        "title": "25+ Best Bible Verses about Love & Marriage (KJV)",
-        "keywords": "scripture on love, god's love, bible verses for weddings, love is patient",
-        "description": "Discover the true meaning of love with these powerful Bible verses. Perfect for weddings, relationships, and understanding God's unconditional love.",
-        "alt_text": "Bible open to verses about love with heart background"
+        "title": "Verses about Love",
+        "description": "Bible verses on Love",
+        "alt_text": "Love bible verse"
       },
       "es": {
-        "title": "Versículos Bíblicos sobre el Amor y el Matrimonio",
-        "keywords": "el amor de dios, textos biblicos de amor, versiculos para bodas",
-        "description": "Descubre el verdadero significado del amor con estos poderosos versículos bíblicos.",
-        "alt_text": "Biblia abierta con versículos sobre el amor"
+        "title": "Versículos Bíblicos sobre Amar",
+        "description": "Descubre poderosos versículos bíblicos sobre Amar.",
+        "alt_text": "Fondo de versículos bíblicos sobre Amar"
       }
     },
-    "image": "/images/verses/john-3-16.png",
     "verses": {
       "en": [
         {
-          "ref": "1 Corinthians 13:4-5",
-          "text": "Love suffers long and is kind; love does not envy; love does not parade itself, is not puffed up; does not behave rudely, does not seek its own, is not provoked, thinks no evil.",
-          "book": "1co",
-          "chapter": 13
+          "ref": "John 3:16",
+          "text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+          "book": "jo",
+          "chapter": 3,
+          "verse": "16"
         },
         {
-          "ref": "John 3:16",
-          "text": "For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life.",
-          "book": "jn",
-          "chapter": 3
+          "ref": "1 Corinthians 13:4-5",
+          "text": "Charity suffereth long, {and} is kind; charity envieth not; charity vaunteth not itself, is not puffed up, {vaunteth...: or, is not rash} Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil;",
+          "book": "1co",
+          "chapter": 13,
+          "verse": "4-5"
+        },
+        {
+          "ref": "1 John 4:19",
+          "text": "We love him, because he first loved us.",
+          "book": "1jo",
+          "chapter": 4,
+          "verse": "19"
         }
       ],
       "es": [
         {
-          "ref": "1 Corintios 13:4-5",
-          "text": "El amor es sufrido, es benigno; el amor no tiene envidia, el amor no es jactancioso, no se envanece; no hace nada indebido, no busca lo suyo, no se irrita, no guarda rencor.",
-          "book": "1co",
-          "chapter": 13
+          "ref": "John 3:16",
+          "text": "Porque de tal manera amó Dios al mundo, que ha dado á su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.",
+          "book": "jo",
+          "chapter": 3,
+          "verse": "16"
         },
         {
-          "ref": "Juan 3:16",
-          "text": "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.",
-          "book": "jn",
-          "chapter": 3
+          "ref": "1 Corinthians 13:4-5",
+          "text": "La caridad es sufrida, es benigna; la caridad no tiene envidia, la caridad no hace sinrazón, no se ensancha; No es injuriosa, no busca lo suyo, no se irrita, no piensa el mal;",
+          "book": "1co",
+          "chapter": 13,
+          "verse": "4-5"
+        },
+        {
+          "ref": "1 John 4:19",
+          "text": "Nosotros le amamos á él, porque él nos amó primero.",
+          "book": "1jo",
+          "chapter": 4,
+          "verse": "19"
         }
       ]
     }
@@ -53,34 +69,50 @@
     "id": "faith",
     "title_en": "Faith",
     "title_es": "Fe",
-    "image": "https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=1964&auto=format&fit=crop",
+    "image": "/images/themes/faith.jpg",
+    "seo": {
+      "en": {
+        "title": "Verses about Faith",
+        "description": "Bible verses on Faith",
+        "alt_text": "Faith bible verse"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre Fe",
+        "description": "Descubre poderosos versículos bíblicos sobre Fe.",
+        "alt_text": "Fondo de versículos bíblicos sobre Fe"
+      }
+    },
     "verses": {
       "en": [
         {
           "ref": "Hebrews 11:1",
-          "text": "Now faith is the substance of things hoped for, the evidence of things not seen.",
-          "book": "heb",
-          "chapter": 11
+          "text": "Now faith is the substance of things hoped for, the evidence of things not seen. {substance: or, ground, or, confidence}",
+          "book": "hb",
+          "chapter": 11,
+          "verse": "1"
         },
         {
           "ref": "2 Corinthians 5:7",
-          "text": "For we walk by faith, not by sight.",
+          "text": "(For we walk by faith, not by sight:)",
           "book": "2co",
-          "chapter": 5
+          "chapter": 5,
+          "verse": "7"
         }
       ],
       "es": [
         {
-          "ref": "Hebreos 11:1",
-          "text": "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.",
-          "book": "heb",
-          "chapter": 11
+          "ref": "Hebrews 11:1",
+          "text": "ES pues la fe la sustancia de las cosas que se esperan, la demostración de las cosas que no se ven.",
+          "book": "hb",
+          "chapter": 11,
+          "verse": "1"
         },
         {
-          "ref": "2 Corintios 5:7",
-          "text": "Porque por fe andamos, no por vista.",
+          "ref": "2 Corinthians 5:7",
+          "text": "(Porque por fe andamos, no por vista;)",
           "book": "2co",
-          "chapter": 5
+          "chapter": 5,
+          "verse": "7"
         }
       ]
     }
@@ -89,22 +121,362 @@
     "id": "hope",
     "title_en": "Hope",
     "title_es": "Esperanza",
-    "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1973&auto=format&fit=crop",
+    "image": "/images/themes/hope.jpg",
+    "seo": {
+      "en": {
+        "title": "Verses about Hope",
+        "description": "Bible verses on Hope",
+        "alt_text": "Hope bible verse"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre Esperanza",
+        "description": "Descubre poderosos versículos bíblicos sobre Esperanza.",
+        "alt_text": "Fondo de versículos bíblicos sobre Esperanza"
+      }
+    },
     "verses": {
       "en": [
         {
           "ref": "Jeremiah 29:11",
-          "text": "For I know the thoughts that I think toward you, says the LORD, thoughts of peace and not of evil, to give you a future and a hope.",
-          "book": "jer",
-          "chapter": 29
+          "text": "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end. {expected...: Heb. end and expectation}",
+          "book": "jr",
+          "chapter": 29,
+          "verse": "11"
+        },
+        {
+          "ref": "Romans 15:13",
+          "text": "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.",
+          "book": "rm",
+          "chapter": 15,
+          "verse": "13"
         }
       ],
       "es": [
         {
-          "ref": "Jeremías 29:11",
+          "ref": "Jeremiah 29:11",
           "text": "Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis.",
-          "book": "jer",
-          "chapter": 29
+          "book": "jr",
+          "chapter": 29,
+          "verse": "11"
+        },
+        {
+          "ref": "Romans 15:13",
+          "text": "Y el Dios de esperanza os llene de todo gozo y paz creyendo, para que abundéis en esperanza por la virtud del Espíritu Santo.",
+          "book": "rm",
+          "chapter": 15,
+          "verse": "13"
+        }
+      ]
+    }
+  },
+  {
+    "id": "peace",
+    "title_en": "Peace",
+    "title_es": "Paz",
+    "image": "/images/themes/peace.jpg",
+    "seo": {
+      "en": {
+        "title": "Verses about Peace",
+        "description": "Bible verses on Peace",
+        "alt_text": "Peace bible verse"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre Paz",
+        "description": "Descubre poderosos versículos bíblicos sobre Paz.",
+        "alt_text": "Fondo de versículos bíblicos sobre Paz"
+      }
+    },
+    "verses": {
+      "en": [
+        {
+          "ref": "John 14:27",
+          "text": "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
+          "book": "jo",
+          "chapter": 14,
+          "verse": "27"
+        },
+        {
+          "ref": "Philippians 4:7",
+          "text": "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.",
+          "book": "ph",
+          "chapter": 4,
+          "verse": "7"
+        }
+      ],
+      "es": [
+        {
+          "ref": "John 14:27",
+          "text": "La paz os dejo, mi paz os doy: no como el mundo la da, yo os la doy. No se turbe vuestro corazón, ni tenga miedo.",
+          "book": "jo",
+          "chapter": 14,
+          "verse": "27"
+        },
+        {
+          "ref": "Philippians 4:7",
+          "text": "Y la paz de Dios, que sobrepuja todo entendimiento, guardará vuestros corazones y vuestros entendimientos en Cristo Jesús.",
+          "book": "ph",
+          "chapter": 4,
+          "verse": "7"
+        }
+      ]
+    }
+  },
+  {
+    "id": "healing",
+    "title_en": "Healing",
+    "title_es": "Cicatrización",
+    "image": "/images/themes/healing.jpg",
+    "seo": {
+      "en": {
+        "title": "Verses about Healing",
+        "description": "Bible verses on Healing",
+        "alt_text": "Healing bible verse"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre Cicatrización",
+        "description": "Descubre poderosos versículos bíblicos sobre Cicatrización.",
+        "alt_text": "Fondo de versículos bíblicos sobre Cicatrización"
+      }
+    },
+    "verses": {
+      "en": [
+        {
+          "ref": "Jeremiah 17:14",
+          "text": "Heal me, O LORD, and I shall be healed; save me, and I shall be saved: for thou {art} my praise.",
+          "book": "jr",
+          "chapter": 17,
+          "verse": "14"
+        },
+        {
+          "ref": "Psalm 103:2-3",
+          "text": "Bless the LORD, O my soul, and forget not all his benefits: Who forgiveth all thine iniquities; who healeth all thy diseases;",
+          "book": "ps",
+          "chapter": 103,
+          "verse": "2-3"
+        }
+      ],
+      "es": [
+        {
+          "ref": "Jeremiah 17:14",
+          "text": "Sáname, oh Jehová, y seré sano; sálvame, y seré salvo: porque tú eres mi alabanza.",
+          "book": "jr",
+          "chapter": 17,
+          "verse": "14"
+        },
+        {
+          "ref": "Psalm 103:2-3",
+          "text": "Bendice, alma mía, á Jehová, Y no olvides ninguno de sus beneficios. El es quien perdona todas tus iniquidades, El que sana todas tus dolencias;",
+          "book": "ps",
+          "chapter": 103,
+          "verse": "2-3"
+        }
+      ]
+    }
+  },
+  {
+    "id": "strength",
+    "title_en": "Strength",
+    "title_es": "Fortaleza",
+    "image": "/images/themes/strength.jpg",
+    "seo": {
+      "en": {
+        "title": "Verses about Strength",
+        "description": "Bible verses on Strength",
+        "alt_text": "Strength bible verse"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre Fortaleza",
+        "description": "Descubre poderosos versículos bíblicos sobre Fortaleza.",
+        "alt_text": "Fondo de versículos bíblicos sobre Fortaleza"
+      }
+    },
+    "verses": {
+      "en": [
+        {
+          "ref": "Philippians 4:13",
+          "text": "I can do all things through Christ which strengtheneth me.",
+          "book": "ph",
+          "chapter": 4,
+          "verse": "13"
+        },
+        {
+          "ref": "Isaiah 40:31",
+          "text": "But they that wait upon the LORD shall renew {their} strength; they shall mount up with wings as eagles; they shall run, and not be weary; {and} they shall walk, and not faint. {renew: Heb. change}",
+          "book": "is",
+          "chapter": 40,
+          "verse": "31"
+        }
+      ],
+      "es": [
+        {
+          "ref": "Philippians 4:13",
+          "text": "Todo lo puedo en Cristo que me fortalece.",
+          "book": "ph",
+          "chapter": 4,
+          "verse": "13"
+        },
+        {
+          "ref": "Isaiah 40:31",
+          "text": "Mas los que esperan á Jehová tendrán nuevas fuerzas; levantarán las alas como águilas, correrán, y no se cansarán, caminarán, y no se fatigarán.",
+          "book": "is",
+          "chapter": 40,
+          "verse": "31"
+        }
+      ]
+    }
+  },
+  {
+    "id": "family",
+    "title_en": "Family",
+    "title_es": "Familia",
+    "image": "/images/themes/family.jpg",
+    "seo": {
+      "en": {
+        "title": "Verses about Family",
+        "description": "Bible verses on Family",
+        "alt_text": "Family bible verse"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre Familia",
+        "description": "Descubre poderosos versículos bíblicos sobre Familia.",
+        "alt_text": "Fondo de versículos bíblicos sobre Familia"
+      }
+    },
+    "verses": {
+      "en": [
+        {
+          "ref": "Joshua 24:15",
+          "text": "And if it seem evil unto you to serve the LORD, choose you this day whom ye will serve; whether the gods which your fathers served that {were} on the other side of the flood, or the gods of the Amorites, in whose land ye dwell: but as for me and my house, we will serve the LORD.",
+          "book": "js",
+          "chapter": 24,
+          "verse": "15"
+        },
+        {
+          "ref": "Exodus 20:12",
+          "text": "Honour thy father and thy mother: that thy days may be long upon the land which the LORD thy God giveth thee.",
+          "book": "ex",
+          "chapter": 20,
+          "verse": "12"
+        }
+      ],
+      "es": [
+        {
+          "ref": "Joshua 24:15",
+          "text": "Y si mal os parece servir á Jehová, escogeos hoy á quién sirváis; si á los dioses á quienes siervieron vuestros padres, cuando estuvieron de esotra parte del río, ó á los dioses de los Amorrheos en cuya tierra habitáis: que yo y mi casa serviremos á Jehová.",
+          "book": "js",
+          "chapter": 24,
+          "verse": "15"
+        },
+        {
+          "ref": "Exodus 20:12",
+          "text": "Honra á tu padre y á tu madre, porque tus días se alarguen en la tierra que Jehová tu Dios te da.",
+          "book": "ex",
+          "chapter": 20,
+          "verse": "12"
+        }
+      ]
+    }
+  },
+  {
+    "id": "comfort",
+    "title_en": "Comfort",
+    "title_es": "Comodidad",
+    "image": "/images/themes/comfort.jpg",
+    "seo": {
+      "en": {
+        "title": "Verses about Comfort",
+        "description": "Bible verses on Comfort",
+        "alt_text": "Comfort bible verse"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre Comodidad",
+        "description": "Descubre poderosos versículos bíblicos sobre Comodidad.",
+        "alt_text": "Fondo de versículos bíblicos sobre Comodidad"
+      }
+    },
+    "verses": {
+      "en": [
+        {
+          "ref": "Psalm 23:4",
+          "text": "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou {art} with me; thy rod and thy staff they comfort me.",
+          "book": "ps",
+          "chapter": 23,
+          "verse": "4"
+        },
+        {
+          "ref": "Matthew 5:4",
+          "text": "Blessed {are} they that mourn: for they shall be comforted.",
+          "book": "mt",
+          "chapter": 5,
+          "verse": "4"
+        }
+      ],
+      "es": [
+        {
+          "ref": "Psalm 23:4",
+          "text": "Aunque ande en valle de sombra de muerte, No temeré mal alguno; porque tú estarás conmigo: Tu vara y tu cayado me infundirán aliento.",
+          "book": "ps",
+          "chapter": 23,
+          "verse": "4"
+        },
+        {
+          "ref": "Matthew 5:4",
+          "text": "Bienaventurados los que lloran: porque ellos recibirán consolación.",
+          "book": "mt",
+          "chapter": 5,
+          "verse": "4"
+        }
+      ]
+    }
+  },
+  {
+    "id": "christmas",
+    "title_en": "Christmas",
+    "title_es": "Navidad",
+    "image": "/images/themes/christmas.jpg",
+    "seo": {
+      "en": {
+        "title": "Verses about Christmas",
+        "description": "Bible verses on Christmas",
+        "alt_text": "Christmas bible verse"
+      },
+      "es": {
+        "title": "Versículos Bíblicos sobre Navidad",
+        "description": "Descubre poderosos versículos bíblicos sobre Navidad.",
+        "alt_text": "Fondo de versículos bíblicos sobre Navidad"
+      }
+    },
+    "verses": {
+      "en": [
+        {
+          "ref": "Luke 2:11",
+          "text": "For unto you is born this day in the city of David a Saviour, which is Christ the Lord.",
+          "book": "lk",
+          "chapter": 2,
+          "verse": "11"
+        },
+        {
+          "ref": "Isaiah 9:6",
+          "text": "For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.",
+          "book": "is",
+          "chapter": 9,
+          "verse": "6"
+        }
+      ],
+      "es": [
+        {
+          "ref": "Luke 2:11",
+          "text": "Que os ha nacido hoy, en la ciudad de David, un Salvador, que es CRISTO el Señor.",
+          "book": "lk",
+          "chapter": 2,
+          "verse": "11"
+        },
+        {
+          "ref": "Isaiah 9:6",
+          "text": "Porque un niño nos es nacido, hijo nos es dado; y el principado sobre su hombro: y llamaráse su nombre Admirable, Consejero, Dios fuerte, Padre eterno, Príncipe de paz.",
+          "book": "is",
+          "chapter": 9,
+          "verse": "6"
         }
       ]
     }
