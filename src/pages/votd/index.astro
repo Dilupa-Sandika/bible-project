@@ -19,50 +19,35 @@ const abbrevMap = {
     "jn": "jo", "jas": "jm", "php": "ph", "1th": "1ts", "1ti": "1tm", "jud": "jd"
 };
 
-// --- SMART IMAGE PATH GENERATOR (UPDATED) ---
+// --- SMART IMAGE PATH GENERATOR (UPDATED FIX) ---
 function getVerseImagePath(verseData, lang) {
     try {
         // 1. Fix Abbreviation
         let abbrev = verseData.abbrev;
         if (abbrevMap[abbrev]) abbrev = abbrevMap[abbrev];
 
-        let bookName = "";
+        // 2. Find Book Object (Always use KJV/English for filename base)
+        const bookObj = kjvBible.find(b => b.abbrev === abbrev);
+        if (!bookObj) return "/images/verses/default.png";
 
-        // 2. භාෂාව අනුව පොතේ නම ගන්නවා
-        if (lang === 'en') {
-            const bookObj = kjvBible.find(b => b.abbrev === abbrev);
-            if (!bookObj) return "/images/verses/default.png";
-            bookName = bookObj.name;
-        } else {
-            // Spanish නම් es_rvr.json එකෙන් නම ගන්නවා (උදා: Juan, Éxodo)
-            // Note: es_rvr.json එකේ නම් English නම්, අපි ඒවා Manual Map කරන්න ඕන. 
-            // හැබැයි අපි කලින් හදපු Mapping එක අනුව නම් Spanish විය යුතුයි.
-            // අපි මෙතන ආරක්ෂාවට English Index එකෙන් Spanish නම ගමු (මොකද es_rvr එකේ නම් English වෙන්න පුලුවන් නිසා)
-            
-            const bookIndex = kjvBible.findIndex(b => b.abbrev === abbrev);
-            if (bookIndex === -1) return "/images/verses/default.png";
-            
-            // Spanish Names Manual List (To be safe)
-            const esNames = ["Génesis", "Éxodo", "Levítico", "Números", "Deuteronomio", "Josué", "Jueces", "Rut", "1 Samuel", "2 Samuel", "1 Reyes", "2 Reyes", "1 Crónicas", "2 Crónicas", "Esdras", "Nehemías", "Ester", "Job", "Salmos", "Proverbios", "Eclesiastés", "Cantares", "Isaías", "Jeremías", "Lamentaciones", "Ezequiel", "Daniel", "Oseas", "Joel", "Amós", "Abdías", "Jonás", "Miqueas", "Nahúm", "Habacuc", "Sofonías", "Hageo", "Zacarías", "Malaquías", "Mateo", "Marcos", "Lucas", "Juan", "Hechos", "Romanos", "1 Corintios", "2 Corintios", "Gálatas", "Efesios", "Filipenses", "Colosenses", "1 Tesalonicenses", "2 Tesalonicenses", "1 Timoteo", "2 Timoteo", "Tito", "Filemón", "Hebreos", "Santiago", "1 Pedro", "2 Pedro", "1 Juan", "2 Juan", "3 Juan", "Judas", "Apocalipsis"];
-            
-            bookName = esNames[bookIndex] || rvrBible[bookIndex].name;
-        }
+        // CRITICAL FIX: Always use English Book Name for the filename logic
+        // files are named like 'acts-1-14-es.png', NOT 'hechos-1-14-es.png'
+        const bookName = bookObj.name;
 
-        // 3. නම Slug කරනවා (Remove Accents & Spaces)
-        // Génesis -> genesis, Juan -> juan
+        // 3. Slugify (English Name)
         const bookSlug = bookName.toLowerCase()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents (é -> e)
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents just in case
             .replace(/\s+/g, '-');
 
-        // 4. පද අංකය
+        // 4. Get Numbers (Chapter-Verse)
         const refParts = verseData.ref.split(' ');
         const chapterVerse = refParts[refParts.length - 1];
         const numbersSlug = chapterVerse.replace(':', '-');
 
-        // 5. ෆයිල් නම හදනවා
+        // 5. Build Base Filename
         let filename = `${bookSlug}-${numbersSlug}`; 
 
-        // 6. ස්පාඤ්ඤ නම් අගට -es එකතු කරනවා
+        // 6. Add suffix for Spanish Language
         if (lang === 'es') {
             filename += '-es'; 
         }
@@ -171,7 +156,6 @@ const heroImageEs = getVerseImagePath(todaysVerseEs, 'es');
     </div>
 
     <script is:inline>
-        // (Script කොටස කිසිම වෙනසක් නෑ, කලින් එකමයි)
         {
             const btnEn = document.getElementById('btn-en');
             const btnEs = document.getElementById('btn-es');

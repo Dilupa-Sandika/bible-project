@@ -2,13 +2,14 @@ import json
 import re
 import random
 import sys
+import os
 from datetime import date, timedelta
 
 # --- Configuration ---
 INPUT_EN = 'en_kjv.json'
 INPUT_ES = 'es_rvr.json'
-# මෙය Root Folder එකේ ඇති බව උපකල්පනය කෙරේ (src/data සිට පියවර 2ක් පසුපසට)
-POOL_FILE = '../../verse_pool.txt'
+# verse_pool.txt තියෙන්නේ Root folder එකේ නම් (src/data එකට පිටින්), අපි පියවර 2ක් පස්සට යන්න ඕන.
+POOL_FILE = '../../verse_pool.txt' 
 
 # --- Translation Maps ---
 THEME_MAP = {
@@ -78,11 +79,11 @@ def get_special_days(year):
     palm_sunday = easter - timedelta(days=7)
     pentecost = easter + timedelta(days=49)
     
-    thanksgiving = get_nth_weekday_of_month(year, 11, 3, 4) # 4th Thursday Nov
-    mothers_day = get_nth_weekday_of_month(year, 5, 6, 2)   # 2nd Sunday May
-    fathers_day = get_nth_weekday_of_month(year, 6, 6, 3)   # 3rd Sunday June
-    mlk_day = get_nth_weekday_of_month(year, 1, 0, 3)       # 3rd Monday Jan
-    memorial_day = get_last_weekday_of_month(year, 5, 0)    # Last Monday May
+    thanksgiving = get_nth_weekday_of_month(year, 11, 3, 4) 
+    mothers_day = get_nth_weekday_of_month(year, 5, 6, 2)   
+    fathers_day = get_nth_weekday_of_month(year, 6, 6, 3)   
+    mlk_day = get_nth_weekday_of_month(year, 1, 0, 3)       
+    memorial_day = get_last_weekday_of_month(year, 5, 0)    
     
     specials = {
         "1-1":   {"ref": "Isaiah 43:19", "theme": "New Beginnings"},
@@ -95,7 +96,6 @@ def get_special_days(year):
         "12-25": {"ref": "Isaiah 9:6", "theme": "Messiah"},
         "12-31": {"ref": "Psalm 90:12", "theme": "Reflection"},
         
-        # Floating Dates
         f"{easter.month}-{easter.day}": {"ref": "Matthew 28:6", "theme": "Resurrection"},
         f"{good_friday.month}-{good_friday.day}": {"ref": "Isaiah 53:5", "theme": "Sacrifice"},
         f"{palm_sunday.month}-{palm_sunday.day}": {"ref": "John 12:13", "theme": "Triumph"},
@@ -112,7 +112,7 @@ def get_special_days(year):
 
 def load_json(filepath):
     try:
-        # FIXED: Using utf-8-sig to handle BOM
+        # HERE IS THE FIX: utf-8-sig
         with open(filepath, 'r', encoding='utf-8-sig') as f:
             return json.load(f)
     except FileNotFoundError:
@@ -124,7 +124,7 @@ def load_json(filepath):
 
 def load_verse_pool(filepath):
     try:
-        # FIXED: Using utf-8-sig here too
+        # HERE IS THE FIX: utf-8-sig
         with open(filepath, 'r', encoding='utf-8-sig') as f:
             lines = f.readlines()
         pool = []
@@ -134,7 +134,7 @@ def load_verse_pool(filepath):
         return pool
     except FileNotFoundError:
         print(f"Error: Could not find {filepath}")
-        print(f"Looking in: {filepath}")
+        print(f"Please make sure 'verse_pool.txt' is in the ROOT folder.")
         sys.exit(1)
 
 def build_book_map(bible_data):
@@ -143,7 +143,6 @@ def build_book_map(bible_data):
         name = book['name'].lower()
         abbrev = book['abbrev']
         mapping[name] = abbrev
-        # Handle common variations
         if "song of" in name:
             mapping["song of solomon"] = abbrev
             mapping["song of songs"] = abbrev
@@ -160,7 +159,6 @@ def build_spanish_name_map(es_data):
     return mapping
 
 def parse_reference(ref_str, book_map):
-    # Improved Regex to handle "1 John", "Song of Solomon", etc.
     match = re.match(r"^(\d?\s?[A-Za-z ]+?)\s+(\d+):(\d+)(-(\d+))?$", ref_str)
     if not match: return None
     
@@ -181,8 +179,6 @@ def get_verse_text(bible_data, abbr, chapter, verses):
             chap_text = book['chapters'][chapter - 1]
             text_parts = []
             for v_num in verses:
-                # Handle verse index (some arrays are 0-based, some texts align differently)
-                # Assuming array index = verse - 1 based on previous logic
                 if v_num <= len(chap_text): 
                     text_parts.append(chap_text[v_num - 1])
             return " ".join(text_parts)
@@ -203,11 +199,10 @@ def get_months_map():
 # --- Main ---
 
 def main():
-    # 1. Ask for Year
     try:
         input_year = input("Enter the year to generate (e.g., 2026): ").strip()
         if not input_year:
-            year = 2026 # Default
+            year = 2026 
         else:
             year = int(input_year)
     except ValueError:
@@ -217,7 +212,6 @@ def main():
     output_file = f'daily_verses_{year}.json'
     print(f"Generating for {year}...")
 
-    # 2. Load Data
     en_bible = load_json(INPUT_EN)
     es_bible = load_json(INPUT_ES)
     verse_pool_raw = load_verse_pool(POOL_FILE)
@@ -226,18 +220,14 @@ def main():
         print("Error: Verse pool is empty!")
         sys.exit(1)
 
-    # 3. Setup Maps
     book_map_en = build_book_map(en_bible)
     spanish_name_map = build_spanish_name_map(es_bible)
     
-    # 4. Get Special Days
     special_days = get_special_days(year)
 
-    # 5. Shuffle Pool
     general_pool = verse_pool_raw.copy()
     random.shuffle(general_pool)
 
-    # 6. Generate Calendar
     final_output = {"en": [], "es": []}
     start_date = date(year, 1, 1)
     end_date = date(year, 12, 31)
@@ -247,16 +237,13 @@ def main():
     used_verses = set()
 
     while current_date <= end_date:
-        # Create MM-DD ID (e.g., "1-1")
         date_id = f"{current_date.month}-{current_date.day}"
         
-        # Determine Verse
         if date_id in special_days:
             entry = special_days[date_id]
             ref_str = entry['ref']
             theme_en = entry['theme']
         else:
-            # Pick unique from pool
             attempts = 0
             while True:
                 if not general_pool:
@@ -265,13 +252,11 @@ def main():
                 
                 ref_str, theme_en = general_pool.pop()
                 
-                # Allow repeats if pool is small, but prefer unique
                 if ref_str not in used_verses or attempts > 100:
                     used_verses.add(ref_str)
                     break
                 attempts += 1
         
-        # Parse & Text
         parsed = parse_reference(ref_str, book_map_en)
         if not parsed:
             print(f"Warning: Could not parse {ref_str}. Skipping.")
@@ -280,29 +265,23 @@ def main():
             
         abbr, chapter, verses = parsed
         
-        # Get Scripture Text
         text_en = get_verse_text(en_bible, abbr, chapter, verses)
         text_es = get_verse_text(es_bible, abbr, chapter, verses)
         
-        # Spanish Fields
         theme_es = THEME_MAP.get(theme_en, theme_en)
         spanish_book_name = spanish_name_map.get(abbr, "Unknown")
         ref_es = reconstruct_ref_es(spanish_book_name, chapter, verses)
         
-        # Image Logic (Consolidated logic for filename)
-        # Need to match Astro logic: book-chapter-verse.png
-        # Get book name from EN Bible for consistency
+        # Image Filename Logic (Updated to match Astro)
         en_book_obj = next((b for b in en_bible if b['abbrev'] == abbr), None)
         en_book_name_safe = en_book_obj['name'].lower().replace(" ", "-") if en_book_obj else "unknown"
         
         v_str = f"{verses[0]}-{verses[-1]}" if len(verses) > 1 and verses[-1] == verses[0] + len(verses) -1 else str(verses[0])
-        v_str_clean = v_str.replace(":", "-") # Just in case
+        v_str_clean = v_str.replace(":", "-")
         
-        # Filename: john-3-16.png
         image_filename_en = f"{en_book_name_safe}-{chapter}-{v_str_clean}.png"
         image_filename_es = f"{en_book_name_safe}-{chapter}-{v_str_clean}-es.png"
 
-        # Add Entries
         final_output["en"].append({
             "dateId": date_id,
             "theme": theme_en,
@@ -310,8 +289,6 @@ def main():
             "text": text_en,
             "abbrev": abbr,
             "chapter": chapter,
-            # We add the image field, but Astro logic might override or use it.
-            # Best to keep it consistent.
             "image": f"/images/verses/{image_filename_en}"
         })
         
@@ -327,7 +304,6 @@ def main():
         
         current_date += delta
 
-    # 7. Write File
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(final_output, f, indent=2, ensure_ascii=False)
     print(f"Success! Created {output_file} with {len(final_output['en'])} entries.")
